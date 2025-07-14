@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hide default cursor */
+* {
+  cursor: none !important;
+}
+
+/* Custom cursor styles */
+.cursor-hover {
+  cursor: none !important;
+}
+
+/* Smooth scrolling for better cursor experience */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure pointer events work properly */
+button,
+a,
+input,
+textarea,
+select,
+[role="button"],
+[tabindex]:not([tabindex="-1"]) {
+  cursor: none !important;
+}

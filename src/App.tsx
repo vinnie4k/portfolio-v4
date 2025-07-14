@@ -1,9 +1,11 @@
 import BentoBox, { BentoItem } from "./components/BentoBox";
+import CustomCursor from "./components/CustomCursor";
 import SpotifyNowPlaying from "./components/SpotifyNowPlaying";
 
 export default function App() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
+      <CustomCursor />
       <div className="container mx-auto py-8">
         <BentoBox>
           {/* Top row - Mixed layout */}
