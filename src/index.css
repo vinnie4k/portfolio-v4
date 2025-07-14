@@ -27,3 +27,32 @@ select,
 [tabindex]:not([tabindex="-1"]) {
   cursor: none !important;
 }
+
+/* Custom animation durations for smooth image transitions */
+.duration-600 {
+  transition-duration: 600ms;
+}
+
+/* Vertical flip animations for image cycling */
+@layer utilities {
+  .rotate-x-90 {
+    transform: rotateX(90deg);
+  }
+
+  .rotate-x-0 {
+    transform: rotateX(0deg);
+  }
+
+  .transform-none {
+    transform: none;
+  }
+
+  /* Enhanced 3D perspective for smooth flips */
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+}
