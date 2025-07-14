@@ -1,0 +1,337 @@
+# React + TypeScript + TailwindCSS Cursor Rules
+
+## Package Manager
+
+- Always use `pnpm` for package management
+- Use `pnpm install`, `pnpm add`, `pnpm remove`, etc.
+
+## Component Structure
+
+- Components should start with `export default function ComponentName`
+- Use functional components with hooks instead of class components
+- Keep components small and focused on a single responsibility
+
+```typescript
+// ✅ Good
+export default function EventCard({ title, date }: EventCardProps) {
+  return (
+    <div className="bg-white rounded-lg shadow-md p-4">
+      <h3 className="text-lg font-semibold">{title}</h3>
+      <p className="text-gray-600">{date.toLocaleDateString()}</p>
+    </div>
+  );
+}
+
+interface EventCardProps {
+  title: string;
+  date: Date;
+}
+```
+
+## Naming Conventions
+
+### Components
+
+- Use PascalCase for component names
+- Props interface should match component name + "Props" suffix
+- Component files should match the component name
+
+```typescript
+// ✅ Good
+export default function EventCard({ title, date }: EventCardProps) {
+  return <div>{/* ... */}</div>;
+}
+
+interface EventCardProps {
+  title: string;
+  date: Date;
+}
+```
+
+### Functions
+
+- Use camelCase for function names
+- Use descriptive names for event handlers with `handle` prefix
+- Use descriptive names for utility functions
+
+```typescript
+// ✅ Good
+const getUserEvents = async (userId: string) => {
+  // ...
+};
+
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  // ...
+};
+
+const handleButtonClick = () => {
+  // ...
+};
+```
+
+### Variables & Constants
+
+- Runtime constants: camelCase
+- Hard-coded values: SCREAMING_SNAKE_CASE
+- Boolean variables should be prefixed with is/has/should/can
+
+```typescript
+// ✅ Good
+const userProfile = await fetchProfile();
+const MAX_ATTENDEES = 100;
+const DATE_FORMAT = "YYYY-MM-DD";
+const isLoading = true;
+const hasPermission = false;
+const shouldShowModal = true;
+const canEdit = user.role === "admin";
+```
+
+### Types & Interfaces
+
+- Use PascalCase for types and interfaces
+- Prefer interfaces for object shapes
+- Use type aliases for unions and primitives
+- Enums: PascalCase for name, SCREAMING_SNAKE_CASE for values
+
+```typescript
+// ✅ Good
+interface EventDetails {
+  id: string;
+  title: string;
+  date: Date;
+}
+
+type EventStatus = "draft" | "published" | "cancelled";
+
+enum EventType {
+  IN_PERSON = "inPerson",
+  VIRTUAL = "virtual",
+  HYBRID = "hybrid",
+}
+```
+
+## File Organization
+
+- Use PascalCase for component file names: `EventCard.tsx`, `UserProfile.tsx`
+- Use kebab-case for non-component files: `auth-utils.ts`, `api-client.ts`
+- Components in `src/components/`
+- Pages in `src/pages/`
+- Utilities in `src/utils/`
+- Types in `src/types/`
+- Hooks in `src/hooks/`
+
+## React Hooks Best Practices
+
+- Use React hooks at the top level of components
+- Custom hooks should start with `use` prefix
+- Use `useCallback` for event handlers passed as props
+- Use `useMemo` for expensive computations
+
+```typescript
+// ✅ Good
+export default function EventList({ events }: EventListProps) {
+  const [filter, setFilter] = useState("");
+
+  const filteredEvents = useMemo(
+    () =>
+      events.filter((event) =>
+        event.title.toLowerCase().includes(filter.toLowerCase())
+      ),
+    [events, filter]
+  );
+
+  const handleFilterChange = useCallback((value: string) => {
+    setFilter(value);
+  }, []);
+
+  return (
+    <div>
+      <input
+        value={filter}
+        onChange={(e) => handleFilterChange(e.target.value)}
+        placeholder="Filter events..."
+      />
+      {filteredEvents.map((event) => (
+        <EventCard key={event.id} {...event} />
+      ))}
+    </div>
+  );
+}
+```
+
+## TailwindCSS Guidelines
+
+- Use utility classes for styling
+- Group related classes together
+- Use responsive prefixes when needed
+- Prefer composition over custom CSS
+
+```typescript
+// ✅ Good
+<div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+  <h2 className="text-xl font-bold text-gray-800 mb-2">Title</h2>
+  <p className="text-gray-600 text-sm">Description</p>
+</div>
+```
+
+## Error Handling
+
+- Use Error Boundaries for component error handling
+- Handle async operations with proper error states
+- Use try/catch blocks for async functions
+
+```typescript
+// ✅ Good
+const [data, setData] = useState<Data | null>(null);
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState<string | null>(null);
+
+const fetchData = async () => {
+  setLoading(true);
+  setError(null);
+  try {
+    const result = await api.getData();
+    setData(result);
+  } catch (err) {
+    setError(err instanceof Error ? err.message : "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+```
+
+## Documentation
+
+### JSDoc Comments
+
+- Use JSDoc for component documentation
+- Document complex functions and utilities
+
+```typescript
+/**
+ * Renders a card displaying event details with interactive elements.
+ *
+ * @param title - The event title to display
+ * @param date - The event date
+ * @param onEdit - Callback fired when edit button is clicked
+ */
+export default function EventCard({ title, date, onEdit }: EventCardProps) {
+  // ...
+}
+```
+
+### Internal Comments
+
+- Use single-line comments for implementation details
+- Explain complex logic or business rules
+
+```typescript
+// Sort events by date in ascending order
+const sortEvents = (events: Event[]) => {
+  return events.sort((a, b) => a.date.getTime() - b.date.getTime());
+};
+
+// Calculate discount based on early bird pricing
+const calculateDiscount = (registrationDate: Date, eventDate: Date) => {
+  const daysUntilEvent = Math.ceil(
+    (eventDate.getTime() - registrationDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  return daysUntilEvent > 30 ? 0.15 : 0; // 15% discount for early registration
+};
+```
+
+## TypeScript Best Practices
+
+- Use strict TypeScript configuration
+- Avoid `any` type - use `unknown` or proper types
+- Use optional chaining and nullish coalescing
+- Define proper return types for functions
+
+```typescript
+// ✅ Good
+const getEventTitle = (event: Event | null): string => {
+  return event?.title ?? "Untitled Event";
+};
+
+// ✅ Good - Generic components
+interface ListProps<T> {
+  items: T[];
+  renderItem: (item: T) => React.ReactNode;
+}
+
+export default function List<T>({ items, renderItem }: ListProps<T>) {
+  return (
+    <ul>
+      {items.map((item, index) => (
+        <li key={index}>{renderItem(item)}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## Performance Optimization
+
+- Use `React.memo` for expensive components
+- Implement proper key props for lists
+- Lazy load components when appropriate
+- Use `useCallback` and `useMemo` judiciously
+
+```typescript
+// ✅ Good
+const ExpensiveComponent = React.memo(({ data }: { data: ComplexData }) => {
+  const processedData = useMemo(() => processData(data), [data]);
+  return <div>{processedData}</div>;
+});
+
+// ✅ Good - Lazy loading
+const LazyComponent = React.lazy(() => import("./heavy-component"));
+```
+
+## Import/Export Guidelines
+
+- Use named imports for utilities and types
+- Use default imports for components
+- Group imports: React, third-party, local
+
+```typescript
+// ✅ Good
+import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
+import { api } from "../utils/api";
+import { Event } from "../types/event";
+import Button from "./button";
+```
+
+## Testing Considerations
+
+- Write components that are easy to test
+- Use data-testid attributes for testing
+- Keep side effects minimal and isolated
+
+```typescript
+// ✅ Good
+export default function SearchInput({ onSearch }: SearchInputProps) {
+  const [query, setQuery] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSearch(query);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} data-testid="search-form">
+      <input
+        data-testid="search-input"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+      />
+      <button type="submit" data-testid="search-button">
+        Search
+      </button>
+    </form>
+  );
+}
+```
