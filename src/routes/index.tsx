@@ -1,3 +1,4 @@
+import Hero from "@/features/hero/_components/Hero";
 import Navbar from "@/features/navbar/_components/Navbar";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -7,6 +8,7 @@ function App() {
   return (
     <div className="flex flex-col w-container mx-auto my-8">
       <Navbar />
+      <Hero />
     </div>
   );
 }

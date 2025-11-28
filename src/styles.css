@@ -25,4 +25,7 @@ body {
   .w-container {
     width: var(--width-container);
   }
+  .h-screen-navbar {
+    height: calc(100vh - 4rem);
+  }
 }
