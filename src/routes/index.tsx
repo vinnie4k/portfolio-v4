@@ -1,11 +1,12 @@
+import Navbar from "@/features/navbar/_components/Navbar";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({ component: App });
 
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold">Hello World</h1>
+    <div className="flex flex-col w-container mx-auto my-8">
+      <Navbar />
     </div>
   );
 }

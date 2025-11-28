@@ -1,17 +1,10 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "TTNormsPro";
-  src: url("/fonts/TTNormsProVariable.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
-  --font-family-sans: "TTNormsPro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
-  --width-container: 1140px;
+  --font-family-sans: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-script: "Euphoria Script", cursive;
+  --width-container: 600px;
 }
 
 html {
@@ -20,6 +13,7 @@ html {
 
 body {
   @apply m-0;
+  background-color: #fafafa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -27,5 +21,8 @@ body {
 @layer utilities {
   .clickable {
     @apply cursor-pointer transition-all duration-200 hover:opacity-80 active:opacity-70 active:scale-[0.98];
+  }
+  .w-container {
+    width: var(--width-container);
   }
 }

@@ -32,6 +32,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Euphoria+Script&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap",
+      },
     ],
   }),
 
