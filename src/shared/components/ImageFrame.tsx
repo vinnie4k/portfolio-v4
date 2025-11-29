@@ -7,6 +7,7 @@ interface ImageFrameProps {
   caption?: string;
   pillText?: string;
   className?: string;
+  priority?: boolean;
 }
 
 export const ImageFrame = ({
@@ -15,6 +16,7 @@ export const ImageFrame = ({
   caption,
   pillText,
   className,
+  priority = false,
 }: ImageFrameProps) => {
   return (
     <div
@@ -28,8 +30,10 @@ export const ImageFrame = ({
           src={src}
           alt={alt}
           className="w-full h-full object-cover p-2 rounded-2xl"
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
           layout="fullWidth"
+          background="auto"
+          fetchPriority={priority ? "high" : "auto"}
         />
       </div>
 

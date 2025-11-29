@@ -11,7 +11,7 @@
 @theme {
   --font-family-sans: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  --font-script: "LiebeHeide Color", cursive;
+  --font-script: "LiebeHeide Color";
   --width-container: 600px;
 
   /* Use zinc colors for gray to remove blue tint - these are Tailwind's zinc values */

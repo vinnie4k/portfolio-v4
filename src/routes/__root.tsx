@@ -39,6 +39,16 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         crossOrigin: "anonymous",
       },
       {
+        rel: "preload",
+        href: "/images/hero-1.JPG",
+        as: "image",
+      },
+      {
+        rel: "preload",
+        href: "/images/hero-2.jpeg",
+        as: "image",
+      },
+      {
         rel: "stylesheet",
         href: appCss,
       },
