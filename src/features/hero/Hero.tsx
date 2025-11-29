@@ -16,8 +16,8 @@ export default function Hero() {
           </h1>
         </SpotlightText>
 
-        <div className="py-2 px-4 bg-gray-100 border border-gray-200 rounded-full w-fit">
-          <SpotlightText>
+        <SpotlightText>
+          <div className="py-2 px-4 bg-gray-100 border border-gray-200 rounded-full w-fit">
             <p className="text-xs md:text-sm text-gray-500">
               Currently building{" "}
               <a
@@ -30,8 +30,8 @@ export default function Hero() {
               </a>
               .
             </p>
-          </SpotlightText>
-        </div>
+          </div>
+        </SpotlightText>
       </div>
 
       {/* Images */}

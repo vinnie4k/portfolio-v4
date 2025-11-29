@@ -1,3 +1,10 @@
-export const Logo = () => {
-  return <h1 className="text-4xl font-script text-gray-900">vin</h1>;
+export const Logo = ({ onClick }: { onClick?: () => void }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="clickable bg-transparent border-none p-0"
+    >
+      <h1 className="text-4xl font-script text-gray-800">Vin Bui</h1>
+    </button>
+  );
 };

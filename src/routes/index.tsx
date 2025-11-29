@@ -223,7 +223,9 @@ function App() {
     return (
       <div className="min-h-screen flex flex-col">
         <div className="w-container mx-auto py-4 shrink-0">
-          <Navbar />
+          <Navbar
+            onLogoClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
         </div>
 
         <div className="flex-1 overflow-y-auto scrollbar-hidden">
@@ -254,7 +256,7 @@ function App() {
   return (
     <div className="h-screen overflow-hidden flex flex-col" data-desktop-layout>
       <div className="w-container mx-auto py-4 shrink-0">
-        <Navbar />
+        <Navbar onLogoClick={() => handleSectionClick(0)} />
       </div>
 
       <div
