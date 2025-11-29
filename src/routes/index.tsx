@@ -42,10 +42,33 @@ const slideVariants = {
   }),
 };
 
+const navbarVariants = {
+  initial: {
+    opacity: 0,
+    y: -50,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
+const contentVariants = {
+  initial: {
+    opacity: 0,
+    y: 15,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
 function App() {
   // States
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isInitialMount, setIsInitialMount] = useState(true);
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth < MOBILE_BREAKPOINT;
@@ -60,6 +83,14 @@ function App() {
   const lastScrollDirection = useRef(0);
   const targetScrollTop = useRef(0);
   const animationFrameId = useRef<number | null>(null);
+
+  // Mark initial mount as complete after animations
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialMount(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Mobile detection
   useEffect(() => {
@@ -222,13 +253,29 @@ function App() {
   if (isMobile) {
     return (
       <div className="min-h-screen flex flex-col">
-        <div className="w-container mx-auto py-4 shrink-0">
+        <motion.div
+          className="w-container mx-auto py-4 shrink-0"
+          variants={navbarVariants}
+          initial={isInitialMount ? "initial" : "animate"}
+          animate="animate"
+          transition={{ duration: 2.0, ease: [0.16, 1, 0.2, 0.85] }}
+        >
           <Navbar
             onLogoClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           />
-        </div>
+        </motion.div>
 
-        <div className="flex-1 overflow-y-auto scrollbar-hidden">
+        <motion.div
+          className="flex-1 overflow-y-auto scrollbar-hidden"
+          variants={contentVariants}
+          initial={isInitialMount ? "initial" : "animate"}
+          animate="animate"
+          transition={{
+            duration: 2.0,
+            delay: isInitialMount ? 0.7 : 0,
+            ease: [0.16, 1, 0.2, 0.85],
+          }}
+        >
           {sections.map((section) => {
             const SectionComponent = section.component;
             return (
@@ -244,7 +291,7 @@ function App() {
               </div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -255,15 +302,29 @@ function App() {
 
   return (
     <div className="h-screen overflow-hidden flex flex-col" data-desktop-layout>
-      <div className="w-container mx-auto py-4 shrink-0">
+      <motion.div
+        className="w-container mx-auto py-4 shrink-0"
+        variants={navbarVariants}
+        initial={isInitialMount ? "initial" : "animate"}
+        animate="animate"
+        transition={{ duration: 2.0, ease: [0.16, 1, 0.2, 0.85] }}
+      >
         <Navbar onLogoClick={() => handleSectionClick(0)} />
-      </div>
+      </motion.div>
 
-      <div
+      <motion.div
         ref={containerRef}
         className={`flex-1 relative scrollbar-hidden ${
           isScrollable ? "overflow-y-auto" : "overflow-hidden"
         }`}
+        variants={contentVariants}
+        initial={isInitialMount ? "initial" : "animate"}
+        animate="animate"
+        transition={{
+          duration: 2.0,
+          delay: isInitialMount ? 0.7 : 0,
+          ease: [0.16, 1, 0.2, 0.85],
+        }}
       >
         <AnimatePresence
           initial={false}
@@ -291,21 +352,21 @@ function App() {
             </div>
           </motion.div>
         </AnimatePresence>
+      </motion.div>
 
-        <div className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2">
-          {sections.map((section, index) => (
-            <button
-              key={section.key}
-              onClick={() => handleSectionClick(index)}
-              className={`clickable w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex
-                  ? "bg-gray-600 scale-125"
-                  : "bg-gray-300 hover:bg-gray-400"
-              }`}
-              aria-label={`Go to ${section.key} section`}
-            />
-          ))}
-        </div>
+      <div className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+        {sections.map((section, index) => (
+          <button
+            key={section.key}
+            onClick={() => handleSectionClick(index)}
+            className={`clickable w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentIndex
+                ? "bg-gray-600 scale-125"
+                : "bg-gray-300 hover:bg-gray-400"
+            }`}
+            aria-label={`Go to ${section.key} section`}
+          />
+        ))}
       </div>
     </div>
   );
