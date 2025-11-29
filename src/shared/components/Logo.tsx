@@ -4,7 +4,15 @@ export const Logo = ({ onClick }: { onClick?: () => void }) => {
       onClick={onClick}
       className="clickable bg-transparent border-none p-0"
     >
-      <h1 className="text-4xl font-script text-gray-800">Vin Bui</h1>
+      <h1
+        className="text-4xl font-script text-gray-800"
+        style={{
+          filter: "grayscale(100%)",
+          WebkitTextFillColor: "currentColor",
+        }}
+      >
+        Vin Bui
+      </h1>
     </button>
   );
 };
