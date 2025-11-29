@@ -17,42 +17,42 @@ export default function Photography() {
         <div className="flex flex-row gap-4">
           <div className="flex flex-col gap-4">
             <ImageFrame
-              src="/images/hero-1.jpeg"
-              alt="Photography 1"
-              className="w-[200px] h-[200px]"
+              src="/images/photography-1.jpg"
+              alt="Image of Richardson's Ice Cream Parlor in Tahoe"
             />
             <ImageFrame
-              src="/images/hero-1.jpeg"
-              alt="Photography 2"
-              className="w-[200px] h-[200px]"
+              src="/images/photography-2.jpg"
+              alt="Image of a man slicing taco meat in Cabo, Mexico"
             />
           </div>
-          <ImageFrame src="/images/hero-1.jpeg" alt="Photography 3" />
+          <ImageFrame
+            src="/images/photography-3.jpg"
+            alt="Image of Muir Woods in California"
+          />
         </div>
         <ImageFrame
-          src="/images/hero-1.jpeg"
-          alt="Photography 4"
-          className="h-[300px]"
+          src="/images/photography-4.jpg"
+          alt="Image of Lake Tahoe in California"
         />
         <div className="flex flex-row gap-4">
-          <ImageFrame src="/images/hero-1.jpeg" alt="Photography 3" />
+          <ImageFrame
+            src="/images/photography-5.JPG"
+            alt="Image of a street in Osaka, Japan"
+          />
           <div className="flex flex-col gap-4">
             <ImageFrame
-              src="/images/hero-1.jpeg"
-              alt="Photography 1"
-              className="w-[200px] h-[200px]"
+              src="/images/photography-6.jpg"
+              alt="Image of Hogwarts Castle in Harry Potter World in Osaka, Japan"
             />
             <ImageFrame
-              src="/images/hero-1.jpeg"
-              alt="Photography 2"
-              className="w-[200px] h-[200px]"
+              src="/images/photography-7.jpg"
+              alt="Image of Big Sur in California"
             />
           </div>
         </div>
         <ImageFrame
-          src="/images/hero-1.jpeg"
-          alt="Photography 4"
-          className="h-[300px]"
+          src="/images/photography-8.jpg"
+          alt="Image of a sunset over the ocean in Cabo, Mexico"
         />
       </div>
     </div>
