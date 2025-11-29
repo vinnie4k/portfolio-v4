@@ -13,28 +13,34 @@ export default function Projects() {
         </h1>
       </SpotlightText>
 
-      <div className="grid grid-cols-2 gap-4">
-        <ProjectCell
-          imageSrc="/images/projects/project-1.jpg"
-          imageAlt="Project 1"
-          link="https://www.google.com"
-        />
-        <ProjectCell
-          imageSrc="/images/projects/project-2.jpg"
-          imageAlt="Project 2"
-          link="https://www.google.com"
-        />
-        <ProjectCell
-          imageSrc="/images/projects/project-3.jpg"
-          imageAlt="Project 3"
-          link="https://www.google.com"
-        />
-        <ProjectCell
-          imageSrc="/images/projects/project-4.jpg"
-          imageAlt="Project 4"
-          link="https://www.google.com"
-        />
-      </div>
+      <SpotlightText>
+        <div className="grid grid-cols-2 gap-4">
+          <ProjectCell
+            imageSrc="/images/grabbit.png"
+            imageAlt="Grabbit"
+            link="https://old.vinbui.me/grabbit"
+            imageClass="w-full h-full object-contain scale-75"
+          />
+          <ProjectCell
+            imageSrc="/images/scribbly.png"
+            imageAlt="Scribbly"
+            link="https://old.vinbui.me/scribbly"
+            imageClass="w-full h-full object-contain scale-75"
+          />
+          <ProjectCell
+            imageSrc="/images/status-platform.png"
+            imageAlt="Status Platform"
+            link="https://old.vinbui.me/status"
+            imageClass="w-full h-full object-contain scale-75"
+          />
+          <ProjectCell
+            imageSrc="/images/volume.png"
+            imageAlt="Volume"
+            link="https://old.vinbui.me/volume"
+            imageClass="w-full h-full object-contain scale-75"
+          />
+        </div>
+      </SpotlightText>
     </div>
   );
 }
