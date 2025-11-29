@@ -46,7 +46,12 @@ function App() {
   // States
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth < MOBILE_BREAKPOINT;
+    }
+    return false;
+  });
 
   // Refs
   const isAnimating = useRef(false);
@@ -247,7 +252,7 @@ function App() {
   const isScrollable = sections[currentIndex].scrollable;
 
   return (
-    <div className="h-screen overflow-hidden flex flex-col">
+    <div className="h-screen overflow-hidden flex flex-col" data-desktop-layout>
       <div className="w-container mx-auto py-4 shrink-0">
         <Navbar />
       </div>

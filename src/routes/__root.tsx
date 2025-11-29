@@ -56,6 +56,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                   document.documentElement.classList.add('dark');
                 }
+                var isMobile = window.innerWidth < 768;
+                document.documentElement.setAttribute('data-is-mobile', isMobile);
               })();
             `,
           }}

@@ -24,6 +24,13 @@ html {
   font-family: var(--font-family-sans);
 }
 
+/* Prevent flash of desktop layout on mobile */
+@media (max-width: 767px) {
+  [data-desktop-layout] {
+    display: none !important;
+  }
+}
+
 body {
   @apply m-0;
   background-color: #fafafa;
