@@ -290,9 +290,9 @@ function App() {
             <button
               key={section.key}
               onClick={() => handleSectionClick(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`clickable w-2 h-2 rounded-full transition-all duration-300 ${
                 index === currentIndex
-                  ? "bg-gray-900 scale-125"
+                  ? "bg-gray-600 scale-125"
                   : "bg-gray-300 hover:bg-gray-400"
               }`}
               aria-label={`Go to ${section.key} section`}
