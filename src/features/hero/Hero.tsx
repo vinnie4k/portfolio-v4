@@ -14,7 +14,7 @@ export default function Hero() {
         </h1>
 
         <div className="py-2 px-4 bg-gray-100 border border-gray-200 rounded-full w-fit">
-          <p className="text-sm text-gray-900">
+          <p className="text-sm text-gray-500">
             Currently building{" "}
             <a
               href="https://nowadays.ai"
