@@ -14,12 +14,14 @@ export default function SpotlightText({
   const targetRef = useRef<{ x: number; y: number } | null>(null);
   const currentRef = useRef<{ x: number; y: number } | null>(null);
   const animationRef = useRef<number | null>(null);
+  const opacityRef = useRef(0);
 
   // State
   const [displayPosition, setDisplayPosition] = useState<{
     x: number;
     y: number;
   } | null>(null);
+  const [opacity, setOpacity] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Effects
@@ -42,16 +44,45 @@ export default function SpotlightText({
   useEffect(() => {
     const animate = () => {
       if (!targetRef.current) {
-        currentRef.current = null;
-        setDisplayPosition(null);
-        animationRef.current = null;
+        // Fade out smoothly, but keep position for smooth re-entry
+        opacityRef.current *= 0.9;
+        setOpacity(opacityRef.current);
+
+        if (opacityRef.current > 0.01) {
+          // Keep animating to maintain smooth position transition
+          if (currentRef.current) {
+            setDisplayPosition({ ...currentRef.current });
+          }
+          animationRef.current = requestAnimationFrame(animate);
+        } else {
+          // Fully faded out, but keep position refs and displayPosition for smooth re-entry
+          opacityRef.current = 0;
+          setOpacity(0);
+          // Keep displayPosition set so element stays in DOM
+          if (currentRef.current) {
+            setDisplayPosition({ ...currentRef.current });
+          }
+          animationRef.current = null;
+        }
         return;
       }
 
+      // Initialize currentRef if needed, starting from last position
+      // Never clear currentRef, so we can smoothly transition from last position
       if (!currentRef.current) {
+        // On first hover, start from target position
         currentRef.current = { ...targetRef.current };
+        setDisplayPosition({ ...currentRef.current });
+        // Start with very low opacity to prevent snap
+        opacityRef.current = 0.01;
+        setOpacity(0.01);
       }
 
+      // Fade in smoothly (slower fade-in for smoother transition)
+      opacityRef.current = Math.min(opacityRef.current * 1.08 + 0.03, 1);
+      setOpacity(opacityRef.current);
+
+      // Always lerp smoothly from current to target
       const lerpFactor = 0.03;
       const dx = targetRef.current.x - currentRef.current.x;
       const dy = targetRef.current.y - currentRef.current.y;
@@ -110,6 +141,8 @@ export default function SpotlightText({
             WebkitMaskImage: `radial-gradient(circle 150px at ${displayPosition.x}px ${displayPosition.y}px, black 0%, transparent 70%)`,
             maskImage: `radial-gradient(circle 150px at ${displayPosition.x}px ${displayPosition.y}px, black 0%, transparent 70%)`,
             filter: `brightness(${brightnessValue})`,
+            opacity: opacity,
+            willChange: "opacity, mask-image",
           }}
         >
           {children}
