@@ -35,6 +35,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
     links: [
       {
+        rel: "preload",
+        href: "/fonts/LiebeHeide-Color.otf",
+        as: "font",
+        type: "font/otf",
+        crossOrigin: "anonymous",
+      },
+      {
         rel: "stylesheet",
         href: appCss,
       },
