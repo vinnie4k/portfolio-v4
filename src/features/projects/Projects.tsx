@@ -1,14 +1,17 @@
+import SpotlightText from "@/shared/components/SpotlightText";
 import ProjectCell from "./ProjectCell";
 
 export default function Projects() {
   return (
     <div className="flex flex-col gap-16 h-full justify-center">
-      <h1 className="text-lg md:text-xl text-gray-900 font-medium">
-        Another place I love to build is at home,{" "}
-        <span className="text-gray-500 font-normal">
-          through personal projects and experiments that spark my curiosity.
-        </span>
-      </h1>
+      <SpotlightText>
+        <h1 className="text-lg md:text-xl text-gray-900 font-medium">
+          Another place I love to build is at home,{" "}
+          <span className="text-gray-500 font-normal">
+            through personal projects and experiments that spark my curiosity.
+          </span>
+        </h1>
+      </SpotlightText>
 
       <div className="grid grid-cols-2 gap-4">
         <ProjectCell />
