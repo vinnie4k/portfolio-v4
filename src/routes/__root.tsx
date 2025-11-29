@@ -27,6 +27,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       {
         title: "Vin Bui",
       },
+      {
+        name: "description",
+        content:
+          "Vin Bui - Founding engineer at Nowadays (YC S23) and fourth-year student at Cornell University studying Information Science. Building products where good design and good tech meet.",
+      },
     ],
     links: [
       {
@@ -46,7 +51,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
         <script
@@ -57,8 +62,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                   document.documentElement.classList.add('dark');
                 }
-                var isMobile = window.innerWidth < 768;
-                document.documentElement.setAttribute('data-is-mobile', isMobile);
               })();
             `,
           }}

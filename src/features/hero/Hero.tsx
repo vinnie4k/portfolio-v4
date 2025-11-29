@@ -17,14 +17,19 @@ export default function Hero() {
         </SpotlightText>
 
         <SpotlightText>
-          <div className="py-2 px-4 bg-gray-100 border border-gray-200 rounded-full w-fit">
-            <p className="text-xs md:text-sm text-gray-500">
+          <div
+            className="py-2 px-4 bg-gray-100 border border-gray-200 rounded-full w-fit"
+            role="status"
+            aria-label="Current work status"
+          >
+            <p className="text-xs md:text-sm text-gray-600">
               Currently building{" "}
               <a
                 href="https://nowadays.ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-[#5064F4] clickable"
+                className="font-medium text-indigo-600 clickable"
+                aria-label="Visit Nowadays AI website"
               >
                 @nowadays
               </a>

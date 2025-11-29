@@ -91,7 +91,7 @@ body {
     @apply text-gray-600;
   }
   .dark .text-gray-500 {
-    @apply text-gray-500;
+    @apply text-gray-400;
   }
   .dark .text-gray-600 {
     @apply text-gray-400;
@@ -107,6 +107,14 @@ body {
   }
   .dark .text-gray-950 {
     @apply text-gray-50;
+  }
+
+  /* Improve contrast for colored links in dark mode */
+  .dark .text-indigo-600 {
+    @apply text-indigo-400;
+  }
+  .dark .text-red-700 {
+    @apply text-red-400;
   }
 
   /* Auto-invert gray background colors in dark mode */

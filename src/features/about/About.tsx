@@ -12,7 +12,8 @@ export default function About() {
               href="https://www.cornell.edu"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#B31B1B] clickable"
+              className="text-red-700 font-semibold clickable"
+              aria-label="Visit Cornell University website"
             >
               Cornell University
             </a>

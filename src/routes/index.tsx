@@ -66,15 +66,11 @@ const contentVariants = {
 
 function App() {
   // States
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const [isInitialMount, setIsInitialMount] = useState(true);
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== "undefined") {
-      return window.innerWidth < MOBILE_BREAKPOINT;
-    }
-    return false;
-  });
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [direction, setDirection] = useState<number>(0);
+  const [isInitialMount, setIsInitialMount] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [hasMounted, setHasMounted] = useState<boolean>(false);
 
   // Refs
   const isAnimating = useRef(false);
@@ -92,8 +88,9 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Mobile detection
+  // Mobile detection - only after mount to avoid hydration mismatch
   useEffect(() => {
+    setHasMounted(true);
     const checkMobile = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     };
@@ -249,10 +246,10 @@ function App() {
     };
   }, [navigate, currentIndex, isMobile]);
 
-  // Render mobile layout
-  if (isMobile) {
+  // Render mobile layout - only after mount to avoid hydration mismatch
+  if (hasMounted && isMobile) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col" suppressHydrationWarning>
         <motion.div
           className="w-container mx-auto py-4 shrink-0"
           variants={navbarVariants}
@@ -301,7 +298,11 @@ function App() {
   const isScrollable = sections[currentIndex].scrollable;
 
   return (
-    <div className="h-screen overflow-hidden flex flex-col" data-desktop-layout>
+    <div
+      className="h-screen overflow-hidden flex flex-col"
+      data-desktop-layout
+      suppressHydrationWarning
+    >
       <motion.div
         className="w-container mx-auto py-4 shrink-0"
         variants={navbarVariants}

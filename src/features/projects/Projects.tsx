@@ -16,28 +16,28 @@ export default function Projects() {
       <div className="grid grid-cols-2 gap-4">
         <ProjectCell
           imageSrc="/images/grabbit.png"
-          imageAlt="Grabbit"
+          imageAlt=""
           link="https://old.vinbui.me/grabbit"
           imageClass="w-full h-full object-contain scale-75"
           pillText="Grabbit"
         />
         <ProjectCell
           imageSrc="/images/scribbly.png"
-          imageAlt="Scribbly"
+          imageAlt=""
           link="https://old.vinbui.me/scribbly"
           imageClass="w-full h-full object-contain scale-75"
           pillText="Scribbly"
         />
         <ProjectCell
           imageSrc="/images/status-platform.png"
-          imageAlt="Status Platform"
+          imageAlt=""
           link="https://old.vinbui.me/status"
           imageClass="w-full h-full object-contain scale-75"
           pillText="Status Platform"
         />
         <ProjectCell
           imageSrc="/images/volume.png"
-          imageAlt="Volume"
+          imageAlt=""
           link="https://old.vinbui.me/volume"
           imageClass="w-full h-full object-contain scale-75"
           pillText="Volume"
