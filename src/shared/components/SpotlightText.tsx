@@ -11,9 +11,12 @@ export default function SpotlightText({
 }: SpotlightTextProps) {
   // Refs
   const textRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef<{ x: number; y: number } | null>(null);
+  const currentRef = useRef<{ x: number; y: number } | null>(null);
+  const animationRef = useRef<number | null>(null);
 
   // State
-  const [mousePosition, setMousePosition] = useState<{
+  const [displayPosition, setDisplayPosition] = useState<{
     x: number;
     y: number;
   } | null>(null);
@@ -37,17 +40,45 @@ export default function SpotlightText({
   }, []);
 
   useEffect(() => {
+    const animate = () => {
+      if (!targetRef.current) {
+        currentRef.current = null;
+        setDisplayPosition(null);
+        animationRef.current = null;
+        return;
+      }
+
+      if (!currentRef.current) {
+        currentRef.current = { ...targetRef.current };
+      }
+
+      const lerpFactor = 0.03;
+      const dx = targetRef.current.x - currentRef.current.x;
+      const dy = targetRef.current.y - currentRef.current.y;
+
+      currentRef.current.x += dx * lerpFactor;
+      currentRef.current.y += dy * lerpFactor;
+
+      setDisplayPosition({ ...currentRef.current });
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       if (textRef.current) {
         const rect = textRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        setMousePosition({ x, y });
+        targetRef.current = {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        };
+
+        if (!animationRef.current) {
+          animationRef.current = requestAnimationFrame(animate);
+        }
       }
     };
 
     const handleMouseLeave = () => {
-      setMousePosition(null);
+      targetRef.current = null;
     };
 
     const textElement = textRef.current;
@@ -61,6 +92,9 @@ export default function SpotlightText({
         textElement.removeEventListener("mousemove", handleMouseMove);
         textElement.removeEventListener("mouseleave", handleMouseLeave);
       }
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
   }, []);
 
@@ -69,14 +103,13 @@ export default function SpotlightText({
   return (
     <div ref={textRef} className={`relative inline-block ${className}`}>
       <span className="relative z-0">{children}</span>
-      {mousePosition && (
+      {displayPosition && (
         <span
           className="absolute inset-0 z-10 pointer-events-none"
           style={{
-            WebkitMaskImage: `radial-gradient(circle 150px at ${mousePosition.x}px ${mousePosition.y}px, black 0%, transparent 70%)`,
-            maskImage: `radial-gradient(circle 150px at ${mousePosition.x}px ${mousePosition.y}px, black 0%, transparent 70%)`,
+            WebkitMaskImage: `radial-gradient(circle 150px at ${displayPosition.x}px ${displayPosition.y}px, black 0%, transparent 70%)`,
+            maskImage: `radial-gradient(circle 150px at ${displayPosition.x}px ${displayPosition.y}px, black 0%, transparent 70%)`,
             filter: `brightness(${brightnessValue})`,
-            transition: "all 0.4s ease-out",
           }}
         >
           {children}

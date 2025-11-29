@@ -1,7 +1,7 @@
 import SpotlightText from "@/shared/components/SpotlightText";
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Mail } from "lucide-react";
+import { FileText, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -47,8 +47,30 @@ export default function Footer() {
               <FontAwesomeIcon icon={faGithub} className="w-4 h-4" />
             </a>
           </SpotlightText>
+          <SpotlightText>
+            <a
+              href="https://drive.google.com/file/d/1OnT9r7J92da_CVz9K7e_BXUB98A9K2PZ/view?usp=drive_link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-gray-100 border border-gray-200 clickable text-gray-500 text-base flex flex-row items-center justify-center gap-3 size-10"
+            >
+              <FileText className="w-4 h-4" />
+            </a>
+          </SpotlightText>
         </div>
       </div>
+
+      <p className="text-sm text-gray-500">
+        Looking for my old portfolio?{" "}
+        <a
+          href="https://old.vinbui.me"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-gray-800 clickable"
+        >
+          Click here.
+        </a>
+      </p>
 
       <div className="flex flex-row items-center justify-between">
         <p className="text-sm text-gray-400">
