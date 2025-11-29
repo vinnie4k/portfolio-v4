@@ -22,12 +22,14 @@ export default function ExperienceRow({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex flex-row gap-8 justify-between">
-        <div className="flex flex-row gap-4">
-          <p className="text-sm md:text-base text-gray-500">{year}</p>
-          <p className="text-sm md:text-base text-gray-900 font-medium">{company}</p>
+      <div className="flex flex-row gap-8 items-center justify-between">
+        <div className="flex flex-row gap-4 items-center">
+          <p className="text-sm text-gray-500">{year}</p>
+          <p className="text-sm md:text-base text-gray-900 font-medium">
+            {company}
+          </p>
         </div>
-        <p className="text-sm md:text-base text-gray-500">{position}</p>
+        <p className="text-sm text-gray-500">{position}</p>
       </div>
 
       <div
