@@ -28,7 +28,9 @@ export const ImageFrame = ({
         />
       </div>
 
-      {caption && <p className="text-base text-gray-500">{caption}</p>}
+      {caption && (
+        <p className="text-sm md:text-base text-gray-500">{caption}</p>
+      )}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { ImageFrame } from "@/shared/components/ImageFrame";
 export default function Photography() {
   return (
     <div className="flex flex-col gap-16 pt-[calc(25vh-2rem)] pb-[25vh]">
-      <h1 className="text-xl text-gray-900 font-medium">
+      <h1 className="text-lg md:text-xl text-gray-900 font-medium">
         I love expressing myself through photography,{" "}
         <span className="text-gray-500 font-normal">
           turning everyday moments into stories that inspire me.

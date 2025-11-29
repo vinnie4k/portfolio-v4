@@ -40,7 +40,10 @@ body {
     @apply cursor-pointer transition-all duration-200 hover:opacity-80 active:opacity-70 active:scale-[0.98];
   }
   .w-container {
-    width: var(--width-container);
+    width: 100%;
+    max-width: var(--width-container);
+    padding-left: 16px;
+    padding-right: 16px;
   }
   .h-screen-navbar {
     height: calc(100vh - 4rem);

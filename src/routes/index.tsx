@@ -11,6 +11,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({ component: App });
 
+// Constants
 const sections = [
   { key: "hero", component: Hero, scrollable: false },
   { key: "experience", component: Experience, scrollable: false },
@@ -22,10 +23,32 @@ const sections = [
 
 const SCROLL_THRESHOLD = 150;
 const SCROLL_EASE = 0.08;
+const ANIMATION_DURATION = 800;
+const MOBILE_BREAKPOINT = 768;
+
+// Animation variants for framer-motion
+const slideVariants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? 60 : -60,
+  }),
+  center: {
+    opacity: 1,
+    y: 0,
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? -60 : 60,
+  }),
+};
 
 function App() {
+  // States
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Refs
   const isAnimating = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAccumulator = useRef(0);
@@ -33,6 +56,17 @@ function App() {
   const targetScrollTop = useRef(0);
   const animationFrameId = useRef<number | null>(null);
 
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Navigation handlers
   const navigate = useCallback(
     (newDirection: number) => {
       if (isAnimating.current) return;
@@ -47,7 +81,7 @@ function App() {
 
       setTimeout(() => {
         isAnimating.current = false;
-      }, 800);
+      }, ANIMATION_DURATION);
     },
     [currentIndex]
   );
@@ -59,7 +93,21 @@ function App() {
     }
   }, []);
 
-  // Smooth scroll animation loop
+  const handleSectionClick = useCallback(
+    (index: number) => {
+      if (index !== currentIndex && !isAnimating.current) {
+        isAnimating.current = true;
+        setDirection(index > currentIndex ? 1 : -1);
+        setCurrentIndex(index);
+        setTimeout(() => {
+          isAnimating.current = false;
+        }, ANIMATION_DURATION);
+      }
+    },
+    [currentIndex]
+  );
+
+  // Smooth scroll animation
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -77,14 +125,12 @@ function App() {
       }
     };
 
-    // Start animation loop
     const startAnimation = () => {
       if (!animationFrameId.current) {
         animationFrameId.current = requestAnimationFrame(animate);
       }
     };
 
-    // Expose startAnimation to the wheel handler via a custom event
     const handleScrollUpdate = () => startAnimation();
     container.addEventListener("smoothscroll", handleScrollUpdate);
 
@@ -96,7 +142,10 @@ function App() {
     };
   }, []);
 
+  // Desktop navigation handlers (wheel & keyboard)
   useEffect(() => {
+    if (isMobile) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -109,33 +158,30 @@ function App() {
       const currentSection = sections[currentIndex];
       const scrollDirection = e.deltaY > 0 ? 1 : -1;
 
+      // Handle scrolling within scrollable sections
       if (currentSection.scrollable) {
         const maxScroll = container.scrollHeight - container.clientHeight;
         const isAtTop = targetScrollTop.current <= 0;
         const isAtBottom = targetScrollTop.current >= maxScroll;
 
-        // Allow scrolling within the section with controlled speed
         if ((e.deltaY < 0 && !isAtTop) || (e.deltaY > 0 && !isAtBottom)) {
           e.preventDefault();
           scrollAccumulator.current = 0;
 
-          // Update target scroll position (reduced speed)
           targetScrollTop.current += e.deltaY * 0.5;
-          // Clamp to valid range
           targetScrollTop.current = Math.max(
             0,
             Math.min(targetScrollTop.current, maxScroll)
           );
 
-          // Trigger smooth scroll animation
           container.dispatchEvent(new CustomEvent("smoothscroll"));
           return;
         }
       }
 
+      // Handle section navigation
       e.preventDefault();
 
-      // Reset accumulator if direction changed
       if (scrollDirection !== lastScrollDirection.current) {
         scrollAccumulator.current = 0;
         lastScrollDirection.current = scrollDirection;
@@ -165,34 +211,47 @@ function App() {
       container.removeEventListener("wheel", handleWheel);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [navigate, currentIndex]);
+  }, [navigate, currentIndex, isMobile]);
 
+  // Render mobile layout
+  if (isMobile) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <div className="w-container mx-auto py-4 shrink-0">
+          <Navbar />
+        </div>
+
+        <div className="flex-1 overflow-y-auto scrollbar-hidden">
+          {sections.map((section) => {
+            const SectionComponent = section.component;
+            return (
+              <div
+                key={section.key}
+                className={`w-container mx-auto ${
+                  section.scrollable
+                    ? "py-24 md:py-16"
+                    : "min-h-screen flex items-center py-24 md:py-0"
+                }`}
+              >
+                <SectionComponent />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // Render desktop layout
   const CurrentSection = sections[currentIndex].component;
   const isScrollable = sections[currentIndex].scrollable;
 
-  const variants = {
-    enter: (direction: number) => ({
-      opacity: 0,
-      y: direction > 0 ? 60 : -60,
-    }),
-    center: {
-      opacity: 1,
-      y: 0,
-    },
-    exit: (direction: number) => ({
-      opacity: 0,
-      y: direction > 0 ? -60 : 60,
-    }),
-  };
-
   return (
     <div className="h-screen overflow-hidden flex flex-col">
-      {/* Fixed Navbar */}
       <div className="w-container mx-auto py-4 shrink-0">
         <Navbar />
       </div>
 
-      {/* Slideshow sections */}
       <div
         ref={containerRef}
         className={`flex-1 relative scrollbar-hidden ${
@@ -208,7 +267,7 @@ function App() {
           <motion.div
             key={sections[currentIndex].key}
             custom={direction}
-            variants={variants}
+            variants={slideVariants}
             initial="enter"
             animate="center"
             exit="exit"
@@ -226,21 +285,11 @@ function App() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Slide indicators */}
         <div className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2">
           {sections.map((section, index) => (
             <button
               key={section.key}
-              onClick={() => {
-                if (index !== currentIndex && !isAnimating.current) {
-                  isAnimating.current = true;
-                  setDirection(index > currentIndex ? 1 : -1);
-                  setCurrentIndex(index);
-                  setTimeout(() => {
-                    isAnimating.current = false;
-                  }, 800);
-                }
-              }}
+              onClick={() => handleSectionClick(index)}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 index === currentIndex
                   ? "bg-gray-900 scale-125"
