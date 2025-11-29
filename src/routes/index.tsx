@@ -1,5 +1,6 @@
 import About from "@/features/about/_components/About";
 import Experience from "@/features/experience/_components/Experience";
+import Footer from "@/features/footer/_components/Footer";
 import Hero from "@/features/hero/_components/Hero";
 import Navbar from "@/features/navbar/_components/Navbar";
 import Photography from "@/features/photography/_components/Photography";
@@ -17,6 +18,7 @@ function App() {
       <Projects />
       <About />
       <Photography />
+      <Footer />
     </div>
   );
 }

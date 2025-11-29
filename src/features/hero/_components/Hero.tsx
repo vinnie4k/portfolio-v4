@@ -18,6 +18,8 @@ export default function Hero() {
             Currently building{" "}
             <a
               href="https://nowadays.ai"
+              target="_blank"
+              rel="noopener noreferrer"
               className="font-medium text-[#5064F4] clickable"
             >
               @nowadays
