@@ -20,7 +20,7 @@ export const ImageFrame = ({
         className
       )}
     >
-      <div className="flex items-center justify-center bg-gray-100 border-2 border-gray-200 rounded-2xl">
+      <div className="flex items-center justify-center w-full h-full bg-gray-100 border-2 border-gray-200 rounded-2xl">
         <img
           src={src}
           alt={alt}

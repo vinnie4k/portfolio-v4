@@ -2,6 +2,7 @@ import About from "@/features/about/_components/About";
 import Experience from "@/features/experience/_components/Experience";
 import Hero from "@/features/hero/_components/Hero";
 import Navbar from "@/features/navbar/_components/Navbar";
+import Photography from "@/features/photography/_components/Photography";
 import Projects from "@/features/projects/_components/Projects";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -15,6 +16,7 @@ function App() {
       <Experience />
       <Projects />
       <About />
+      <Photography />
     </div>
   );
 }
