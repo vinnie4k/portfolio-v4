@@ -1,6 +1,7 @@
 import Experience from "@/features/experience/_components/Experience";
 import Hero from "@/features/hero/_components/Hero";
 import Navbar from "@/features/navbar/_components/Navbar";
+import Projects from "@/features/projects/_components/Projects";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({ component: App });
@@ -11,6 +12,7 @@ function App() {
       <Navbar />
       <Hero />
       <Experience />
+      <Projects />
     </div>
   );
 }
