@@ -4,6 +4,7 @@ interface ImageFrameProps {
   src: string;
   alt: string;
   caption?: string;
+  pillText?: string;
   className?: string;
 }
 
@@ -11,12 +12,13 @@ export const ImageFrame = ({
   src,
   alt,
   caption,
+  pillText,
   className,
 }: ImageFrameProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 items-center justify-center",
+        "group flex flex-col gap-2 items-center justify-center relative",
         className
       )}
     >
@@ -30,6 +32,12 @@ export const ImageFrame = ({
 
       {caption && (
         <p className="text-sm md:text-base text-gray-500">{caption}</p>
+      )}
+
+      {pillText && (
+        <div className="absolute bottom-6 right-6 bg-gray-100 border border-gray-200 rounded-2xl px-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform translate-y-2 group-hover:translate-y-0">
+          <p className="text-[10px] text-gray-600">{pillText}</p>
+        </div>
       )}
     </div>
   );

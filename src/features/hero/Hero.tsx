@@ -37,16 +37,16 @@ export default function Hero() {
       {/* Images */}
       <div className="flex flex-col md:flex-row gap-16 items-center justify-center">
         <ImageFrame
-          src="/images/hero-1.jpeg"
-          alt="Universal Studios in Japan!"
-          caption="Universal Studios in Japan!"
-          className="-rotate-6 max-w-[280px] md:max-w-none"
+          src="/images/hero-1.JPG"
+          alt="Image of Vin after running his first 5k"
+          caption="Ran my first 5k ever!"
+          className="-rotate-6 w-full max-w-[280px] md:max-w-[400px]"
         />
         <ImageFrame
           src="/images/hero-2.jpeg"
-          alt="Happiest place on Earth :)"
-          caption="Happiest place on Earth :)"
-          className="rotate-6 max-w-[280px] md:max-w-none"
+          alt="Image of Vin taking pictures in Lake Tahoe"
+          caption="Me and my camera in Tahoe :)"
+          className="rotate-6 w-full max-w-[280px] md:max-w-[400px]"
         />
       </div>
     </div>

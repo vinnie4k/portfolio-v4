@@ -129,7 +129,7 @@ export default function SpotlightText({
     };
   }, []);
 
-  const brightnessValue = isDarkMode ? "1.5" : "0.95";
+  const brightnessValue = isDarkMode ? "1.5" : "0.9";
 
   return (
     <div ref={textRef} className={`relative inline-block ${className}`}>

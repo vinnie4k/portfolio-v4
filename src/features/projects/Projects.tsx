@@ -13,34 +13,36 @@ export default function Projects() {
         </h1>
       </SpotlightText>
 
-      <SpotlightText>
-        <div className="grid grid-cols-2 gap-4">
-          <ProjectCell
-            imageSrc="/images/grabbit.png"
-            imageAlt="Grabbit"
-            link="https://old.vinbui.me/grabbit"
-            imageClass="w-full h-full object-contain scale-75"
-          />
-          <ProjectCell
-            imageSrc="/images/scribbly.png"
-            imageAlt="Scribbly"
-            link="https://old.vinbui.me/scribbly"
-            imageClass="w-full h-full object-contain scale-75"
-          />
-          <ProjectCell
-            imageSrc="/images/status-platform.png"
-            imageAlt="Status Platform"
-            link="https://old.vinbui.me/status"
-            imageClass="w-full h-full object-contain scale-75"
-          />
-          <ProjectCell
-            imageSrc="/images/volume.png"
-            imageAlt="Volume"
-            link="https://old.vinbui.me/volume"
-            imageClass="w-full h-full object-contain scale-75"
-          />
-        </div>
-      </SpotlightText>
+      <div className="grid grid-cols-2 gap-4">
+        <ProjectCell
+          imageSrc="/images/grabbit.png"
+          imageAlt="Grabbit"
+          link="https://old.vinbui.me/grabbit"
+          imageClass="w-full h-full object-contain scale-75"
+          pillText="Grabbit"
+        />
+        <ProjectCell
+          imageSrc="/images/scribbly.png"
+          imageAlt="Scribbly"
+          link="https://old.vinbui.me/scribbly"
+          imageClass="w-full h-full object-contain scale-75"
+          pillText="Scribbly"
+        />
+        <ProjectCell
+          imageSrc="/images/status-platform.png"
+          imageAlt="Status Platform"
+          link="https://old.vinbui.me/status"
+          imageClass="w-full h-full object-contain scale-75"
+          pillText="Status Platform"
+        />
+        <ProjectCell
+          imageSrc="/images/volume.png"
+          imageAlt="Volume"
+          link="https://old.vinbui.me/volume"
+          imageClass="w-full h-full object-contain scale-75"
+          pillText="Volume"
+        />
+      </div>
     </div>
   );
 }
