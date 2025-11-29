@@ -1,10 +1,10 @@
-import About from "@/features/about/_components/About";
-import Experience from "@/features/experience/_components/Experience";
-import Footer from "@/features/footer/_components/Footer";
-import Hero from "@/features/hero/_components/Hero";
-import Navbar from "@/features/navbar/_components/Navbar";
-import Photography from "@/features/photography/_components/Photography";
-import Projects from "@/features/projects/_components/Projects";
+import About from "@/features/about/About";
+import Experience from "@/features/experience/Experience";
+import Footer from "@/features/footer/Footer";
+import Hero from "@/features/hero/Hero";
+import Navbar from "@/features/navbar/Navbar";
+import Photography from "@/features/photography/Photography";
+import Projects from "@/features/projects/Projects";
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
