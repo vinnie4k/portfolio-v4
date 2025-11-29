@@ -14,10 +14,26 @@ export default function Projects() {
       </SpotlightText>
 
       <div className="grid grid-cols-2 gap-4">
-        <ProjectCell />
-        <ProjectCell />
-        <ProjectCell />
-        <ProjectCell />
+        <ProjectCell
+          imageSrc="/images/projects/project-1.jpg"
+          imageAlt="Project 1"
+          link="https://www.google.com"
+        />
+        <ProjectCell
+          imageSrc="/images/projects/project-2.jpg"
+          imageAlt="Project 2"
+          link="https://www.google.com"
+        />
+        <ProjectCell
+          imageSrc="/images/projects/project-3.jpg"
+          imageAlt="Project 3"
+          link="https://www.google.com"
+        />
+        <ProjectCell
+          imageSrc="/images/projects/project-4.jpg"
+          imageAlt="Project 4"
+          link="https://www.google.com"
+        />
       </div>
     </div>
   );
