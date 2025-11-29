@@ -28,4 +28,14 @@ body {
   .h-screen-navbar {
     height: calc(100vh - 4rem);
   }
+  .h-section {
+    height: calc(100vh - 4rem);
+  }
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
 }

@@ -2,7 +2,7 @@ import { ImageFrame } from "@/shared/components/ImageFrame";
 
 export default function Hero() {
   return (
-    <div className="flex flex-col gap-16 h-screen-navbar justify-center">
+    <div className="flex flex-col gap-16 h-full justify-center">
       {/* Text */}
       <div className="flex flex-col gap-8">
         <h1 className="text-xl text-gray-900 font-medium">

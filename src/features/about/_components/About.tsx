@@ -2,7 +2,7 @@ import { ImageFrame } from "@/shared/components/ImageFrame";
 
 export default function About() {
   return (
-    <div className="flex flex-col gap-16 h-screen-navbar justify-center">
+    <div className="flex flex-col gap-16 h-full justify-center">
       <div className="flex flex-col gap-8">
         <h1 className="text-xl text-gray-900 font-medium">
           I'm also a fourth-year student at{" "}

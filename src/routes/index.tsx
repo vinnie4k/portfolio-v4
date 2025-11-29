@@ -6,19 +6,251 @@ import Navbar from "@/features/navbar/_components/Navbar";
 import Photography from "@/features/photography/_components/Photography";
 import Projects from "@/features/projects/_components/Projects";
 import { createFileRoute } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({ component: App });
 
+const sections = [
+  { key: "hero", component: Hero, scrollable: false },
+  { key: "experience", component: Experience, scrollable: false },
+  { key: "projects", component: Projects, scrollable: false },
+  { key: "about", component: About, scrollable: false },
+  { key: "photography", component: Photography, scrollable: true },
+  { key: "footer", component: Footer, scrollable: false },
+];
+
+const SCROLL_THRESHOLD = 150;
+const SCROLL_EASE = 0.08;
+
 function App() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const isAnimating = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollAccumulator = useRef(0);
+  const lastScrollDirection = useRef(0);
+  const targetScrollTop = useRef(0);
+  const animationFrameId = useRef<number | null>(null);
+
+  const navigate = useCallback(
+    (newDirection: number) => {
+      if (isAnimating.current) return;
+
+      const nextIndex = currentIndex + newDirection;
+      if (nextIndex < 0 || nextIndex >= sections.length) return;
+
+      isAnimating.current = true;
+      setDirection(newDirection);
+      setCurrentIndex(nextIndex);
+      scrollAccumulator.current = 0;
+
+      setTimeout(() => {
+        isAnimating.current = false;
+      }, 800);
+    },
+    [currentIndex]
+  );
+
+  const resetScroll = useCallback(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+      targetScrollTop.current = 0;
+    }
+  }, []);
+
+  // Smooth scroll animation loop
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const animate = () => {
+      const currentScroll = container.scrollTop;
+      const diff = targetScrollTop.current - currentScroll;
+
+      if (Math.abs(diff) > 0.5) {
+        container.scrollTop = currentScroll + diff * SCROLL_EASE;
+        animationFrameId.current = requestAnimationFrame(animate);
+      } else {
+        container.scrollTop = targetScrollTop.current;
+        animationFrameId.current = null;
+      }
+    };
+
+    // Start animation loop
+    const startAnimation = () => {
+      if (!animationFrameId.current) {
+        animationFrameId.current = requestAnimationFrame(animate);
+      }
+    };
+
+    // Expose startAnimation to the wheel handler via a custom event
+    const handleScrollUpdate = () => startAnimation();
+    container.addEventListener("smoothscroll", handleScrollUpdate);
+
+    return () => {
+      container.removeEventListener("smoothscroll", handleScrollUpdate);
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (isAnimating.current) {
+        e.preventDefault();
+        return;
+      }
+
+      const currentSection = sections[currentIndex];
+      const scrollDirection = e.deltaY > 0 ? 1 : -1;
+
+      if (currentSection.scrollable) {
+        const maxScroll = container.scrollHeight - container.clientHeight;
+        const isAtTop = targetScrollTop.current <= 0;
+        const isAtBottom = targetScrollTop.current >= maxScroll;
+
+        // Allow scrolling within the section with controlled speed
+        if ((e.deltaY < 0 && !isAtTop) || (e.deltaY > 0 && !isAtBottom)) {
+          e.preventDefault();
+          scrollAccumulator.current = 0;
+
+          // Update target scroll position (reduced speed)
+          targetScrollTop.current += e.deltaY * 0.5;
+          // Clamp to valid range
+          targetScrollTop.current = Math.max(
+            0,
+            Math.min(targetScrollTop.current, maxScroll)
+          );
+
+          // Trigger smooth scroll animation
+          container.dispatchEvent(new CustomEvent("smoothscroll"));
+          return;
+        }
+      }
+
+      e.preventDefault();
+
+      // Reset accumulator if direction changed
+      if (scrollDirection !== lastScrollDirection.current) {
+        scrollAccumulator.current = 0;
+        lastScrollDirection.current = scrollDirection;
+      }
+
+      scrollAccumulator.current += Math.abs(e.deltaY);
+
+      if (scrollAccumulator.current >= SCROLL_THRESHOLD) {
+        navigate(scrollDirection);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown" || e.key === " ") {
+        e.preventDefault();
+        navigate(1);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate, currentIndex]);
+
+  const CurrentSection = sections[currentIndex].component;
+  const isScrollable = sections[currentIndex].scrollable;
+
+  const variants = {
+    enter: (direction: number) => ({
+      opacity: 0,
+      y: direction > 0 ? 60 : -60,
+    }),
+    center: {
+      opacity: 1,
+      y: 0,
+    },
+    exit: (direction: number) => ({
+      opacity: 0,
+      y: direction > 0 ? -60 : 60,
+    }),
+  };
+
   return (
-    <div className="flex flex-col w-container mx-auto my-8">
-      <Navbar />
-      <Hero />
-      <Experience />
-      <Projects />
-      <About />
-      <Photography />
-      <Footer />
+    <div className="h-screen overflow-hidden flex flex-col">
+      {/* Fixed Navbar */}
+      <div className="w-container mx-auto py-4 shrink-0">
+        <Navbar />
+      </div>
+
+      {/* Slideshow sections */}
+      <div
+        ref={containerRef}
+        className={`flex-1 relative scrollbar-hidden ${
+          isScrollable ? "overflow-y-auto" : "overflow-hidden"
+        }`}
+      >
+        <AnimatePresence
+          initial={false}
+          custom={direction}
+          mode="wait"
+          onExitComplete={resetScroll}
+        >
+          <motion.div
+            key={sections[currentIndex].key}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              duration: 0.7,
+              ease: [0.25, 0.1, 0.25, 1],
+            }}
+            className={isScrollable ? "" : "absolute inset-0"}
+          >
+            <div
+              className={`w-container mx-auto ${isScrollable ? "" : "h-full"}`}
+            >
+              <CurrentSection />
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Slide indicators */}
+        <div className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+          {sections.map((section, index) => (
+            <button
+              key={section.key}
+              onClick={() => {
+                if (index !== currentIndex && !isAnimating.current) {
+                  isAnimating.current = true;
+                  setDirection(index > currentIndex ? 1 : -1);
+                  setCurrentIndex(index);
+                  setTimeout(() => {
+                    isAnimating.current = false;
+                  }, 800);
+                }
+              }}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentIndex
+                  ? "bg-gray-900 scale-125"
+                  : "bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Go to ${section.key} section`}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

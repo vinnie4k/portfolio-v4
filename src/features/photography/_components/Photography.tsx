@@ -2,7 +2,7 @@ import { ImageFrame } from "@/shared/components/ImageFrame";
 
 export default function Photography() {
   return (
-    <div className="flex flex-col gap-16 py-32 justify-center">
+    <div className="flex flex-col gap-16 pt-[calc(25vh-2rem)] pb-[25vh]">
       <h1 className="text-xl text-gray-900 font-medium">
         I love expressing myself through photography,{" "}
         <span className="text-gray-500 font-normal">

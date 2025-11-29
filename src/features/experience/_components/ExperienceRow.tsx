@@ -31,7 +31,7 @@ export default function ExperienceRow({
       </div>
 
       <div
-        className={`grid transition-all duration-300 ease-in-out delay-75 overflow-hidden ${
+        className={`grid transition-all duration-500 ease-in-out delay-75 overflow-hidden ${
           isHovered
             ? "grid-rows-[1fr] opacity-100 py-5"
             : "grid-rows-[0fr] opacity-0"
