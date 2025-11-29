@@ -1,3 +1,4 @@
+import { Image } from "@unpic/react";
 import { cn } from "../utils";
 
 interface ImageFrameProps {
@@ -23,10 +24,12 @@ export const ImageFrame = ({
       )}
     >
       <div className="flex items-center justify-center w-full h-full bg-gray-100 border-2 border-gray-200 rounded-2xl">
-        <img
+        <Image
           src={src}
           alt={alt}
           className="w-full h-full object-cover p-2 rounded-2xl"
+          loading="lazy"
+          layout="fullWidth"
         />
       </div>
 
