@@ -7,7 +7,7 @@ export const Logo = ({ onClick }: { onClick?: () => void }) => {
       className="clickable bg-transparent border-none p-0"
     >
       <h1
-        className="text-4xl font-script text-gray-950 dark:text-white logo-filter"
+        className="text-4xl font-script logo-filter"
         style={{
           WebkitTextFillColor: "currentColor",
         }}

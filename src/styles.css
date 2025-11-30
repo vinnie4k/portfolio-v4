@@ -237,7 +237,7 @@ body {
 
   /* Logo filter - grayscale in light mode, brighter grayscale in dark mode */
   .logo-filter {
-    filter: grayscale(100%);
+    filter: grayscale(100%) contrast(1.2);
   }
   .dark .logo-filter {
     filter: grayscale(100%) brightness(2);
