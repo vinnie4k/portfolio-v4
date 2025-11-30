@@ -1,5 +1,6 @@
 import { ImageFrame } from "@/shared/components/ImageFrame";
 import SpotlightText from "@/shared/components/SpotlightText";
+import { dnt } from "eqqo-react";
 
 export default function Hero() {
   return (
@@ -31,7 +32,7 @@ export default function Hero() {
                 className="font-medium text-indigo-600 clickable"
                 aria-label="Visit Nowadays AI website"
               >
-                @nowadays
+                {dnt("@nowadays")}
               </a>
               .
             </p>

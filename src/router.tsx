@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
+import { TranslatorProvider } from "eqqo-react";
 import { PostHogProvider } from "posthog-js/react";
 import { routeTree } from "./routeTree.gen";
 
@@ -19,14 +20,19 @@ export const getRouter = () => {
     defaultPreload: "intent",
     Wrap: (props: { children: React.ReactNode }) => {
       return (
-        <PostHogProvider
-          apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
-          options={options}
+        <TranslatorProvider
+          publicKey={import.meta.env.VITE_PUBLIC_EQQO_KEY}
+          defaultLanguage="en"
         >
-          <QueryClientProvider client={queryClient}>
-            {props.children}
-          </QueryClientProvider>
-        </PostHogProvider>
+          <PostHogProvider
+            apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
+            options={options}
+          >
+            <QueryClientProvider client={queryClient}>
+              {props.children}
+            </QueryClientProvider>
+          </PostHogProvider>
+        </TranslatorProvider>
       );
     },
   });

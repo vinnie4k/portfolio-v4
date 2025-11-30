@@ -1,3 +1,4 @@
+import { dnt } from "eqqo-react";
 import { useState } from "react";
 
 interface ExperienceRowProps {
@@ -26,7 +27,7 @@ export default function ExperienceRow({
         <div className="flex flex-row gap-4 items-center">
           <p className="text-sm text-gray-500">{year}</p>
           <p className="text-sm md:text-base text-gray-900 font-medium">
-            {company}
+            {dnt(company)}
           </p>
         </div>
         <p className="text-sm text-gray-500">{position}</p>

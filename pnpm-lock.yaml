@@ -38,6 +38,9 @@ importers:
       '@unpic/react':
         specifier: ^1.0.1
         version: 1.0.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      eqqo-react:
+        specifier: ^0.1.0
+        version: 0.1.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       framer-motion:
         specifier: ^12.23.24
         version: 12.23.24(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1360,6 +1363,12 @@ packages:
   entities@6.0.1:
     resolution: {integrity: sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==}
     engines: {node: '>=0.12'}
+
+  eqqo-react@0.1.0:
+    resolution: {integrity: sha512-66cbt32KoM8xFe/INCdGvT47FoI3yUXXgRW1QoDN5UzcT6eD/nLity4iaIZ31FRf8AqjfI/lD4Wtd7JQpuVkvw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
@@ -3405,6 +3414,11 @@ snapshots:
   entities@4.5.0: {}
 
   entities@6.0.1: {}
+
+  eqqo-react@0.1.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
   es-module-lexer@1.7.0: {}
 

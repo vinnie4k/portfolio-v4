@@ -1,5 +1,6 @@
 import SpotlightText from "@/shared/components/SpotlightText";
 import { cn } from "@/shared/utils";
+import { dnt } from "eqqo-react";
 
 interface ProjectCellProps {
   imageSrc: string;
@@ -26,7 +27,7 @@ export default function ProjectCell({
         />
         {pillText && (
           <div className="absolute bottom-6 right-6 bg-gray-100 border border-gray-200 rounded-2xl px-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform translate-y-2 group-hover:translate-y-0">
-            <p className="text-[10px] text-gray-600">{pillText}</p>
+            <p className="text-[10px] text-gray-600">{dnt(pillText)}</p>
           </div>
         )}
       </a>

@@ -1,4 +1,5 @@
 import NotFound from "@/features/notfound/NotFound";
+import LanguageSync from "@/shared/components/LanguageSync";
 import type { QueryClient } from "@tanstack/react-query";
 import {
   HeadContent,
@@ -100,6 +101,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         </noscript>
       </head>
       <body>
+        <LanguageSync />
         {children}
         <Scripts />
       </body>

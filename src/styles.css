@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source("../");
 
 @font-face {
   font-family: "Nunito";
@@ -198,6 +198,41 @@ body {
   /* Auto-invert gray border colors on hover in dark mode */
   .dark .hover\:border-gray-300:hover {
     border-color: oklch(32.1% 0 0);
+  }
+
+  /* Auto-invert gray background colors on hover in dark mode */
+  .dark .hover\:bg-gray-50:hover {
+    @apply bg-gray-950;
+  }
+  .dark .hover\:bg-gray-100:hover {
+    @apply bg-gray-900;
+  }
+  .dark .hover\:bg-gray-200:hover {
+    @apply bg-gray-800;
+  }
+  .dark .hover\:bg-gray-300:hover {
+    @apply bg-gray-700;
+  }
+  .dark .hover\:bg-gray-400:hover {
+    @apply bg-gray-600;
+  }
+  .dark .hover\:bg-gray-500:hover {
+    @apply bg-gray-500;
+  }
+  .dark .hover\:bg-gray-600:hover {
+    @apply bg-gray-400;
+  }
+  .dark .hover\:bg-gray-700:hover {
+    @apply bg-gray-300;
+  }
+  .dark .hover\:bg-gray-800:hover {
+    @apply bg-gray-100;
+  }
+  .dark .hover\:bg-gray-900:hover {
+    @apply bg-gray-100;
+  }
+  .dark .hover\:bg-gray-950:hover {
+    @apply bg-gray-50;
   }
 
   /* Logo filter - grayscale in light mode, brighter grayscale in dark mode */

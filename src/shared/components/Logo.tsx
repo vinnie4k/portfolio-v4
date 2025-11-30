@@ -1,3 +1,5 @@
+import { dnt } from "eqqo-react";
+
 export const Logo = ({ onClick }: { onClick?: () => void }) => {
   return (
     <button
@@ -10,7 +12,7 @@ export const Logo = ({ onClick }: { onClick?: () => void }) => {
           WebkitTextFillColor: "currentColor",
         }}
       >
-        Vin Bui
+        {dnt("Vin Bui")}
       </h1>
     </button>
   );
