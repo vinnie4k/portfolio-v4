@@ -17,7 +17,7 @@ export default function ProjectCell({
   pillText,
 }: ProjectCellProps) {
   return (
-    <SpotlightText className="group relative rounded-2xl border-2 border-gray-200 hover:border-gray-300 bg-gray-100 w-full aspect-square transition-colors">
+    <SpotlightText className="group relative rounded-2xl border-2 border-gray-200 hover:border-gray-300 bg-gray-100 w-full aspect-square transition-colors duration-400 ease-in-out">
       <a href={link} target="_blank" rel="noopener noreferrer">
         <img
           src={imageSrc}
