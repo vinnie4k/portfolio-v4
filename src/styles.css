@@ -16,10 +16,18 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Signatie";
+  src: url("/fonts/Signatie.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-family-sans: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  --font-script: "LiebeHeide Color";
+  --font-script: "Signatie";
   --width-container: 600px;
 
   /* Use zinc colors for gray to remove blue tint - these are Tailwind's zinc values */
@@ -233,13 +241,5 @@ body {
   }
   .dark .hover\:bg-gray-950:hover {
     @apply bg-gray-50;
-  }
-
-  /* Logo filter - grayscale in light mode, brighter grayscale in dark mode */
-  .logo-filter {
-    filter: grayscale(100%) contrast(1.2);
-  }
-  .dark .logo-filter {
-    filter: grayscale(100%) brightness(2);
   }
 }

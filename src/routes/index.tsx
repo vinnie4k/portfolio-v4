@@ -242,7 +242,7 @@ function App() {
     return (
       <div className="min-h-screen flex flex-col" suppressHydrationWarning>
         <motion.div
-          className="w-container mx-auto py-4 shrink-0"
+          className="w-container mx-auto py-6 shrink-0"
           variants={navbarVariants}
           initial="animate"
           animate="animate"
@@ -289,7 +289,7 @@ function App() {
       suppressHydrationWarning
     >
       <motion.div
-        className="w-container mx-auto py-4 shrink-0"
+        className="w-container mx-auto py-6 shrink-0"
         variants={navbarVariants}
         initial="animate"
         animate="animate"
