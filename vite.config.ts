@@ -5,7 +5,7 @@ import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
-const config = defineConfig({
+const config = defineConfig(({ mode }) => ({
   plugins: [
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
@@ -16,7 +16,14 @@ const config = defineConfig({
     nitro(),
     viteReact(),
   ],
+  build: {
+    sourcemap: true,
+    minify: "esbuild",
+  },
+  esbuild: {
+    drop: mode === "production" ? ["console", "debugger"] : [],
+  },
   nitro: {},
-});
+}));
 
 export default config;
