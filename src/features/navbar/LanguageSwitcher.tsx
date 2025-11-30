@@ -48,6 +48,7 @@ const languages = [
 export default function LanguageSwitcher() {
   const { switchLanguage, currentLanguage, isLoading } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [loadingLanguage, setLoadingLanguage] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -70,9 +71,15 @@ export default function LanguageSwitcher() {
   }, [isOpen]);
 
   const handleLanguageSelect = async (langCode: string) => {
-    if (langCode !== currentLanguage && !isLoading) {
+    if (langCode === currentLanguage || isLoading || loadingLanguage !== null) {
+      return;
+    }
+    setLoadingLanguage(langCode);
+    try {
       await switchLanguage(langCode);
       setIsOpen(false);
+    } finally {
+      setLoadingLanguage(null);
     }
   };
 
@@ -81,14 +88,10 @@ export default function LanguageSwitcher() {
       <button
         className="flex flex-row gap-0 rounded-full border border-gray-200 clickable relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={() => setIsOpen(!isOpen)}
-        disabled={isLoading}
+        disabled={isLoading || loadingLanguage !== null}
         aria-label="Select language"
       >
-        {isLoading ? (
-          <Loader2 className="size-4 my-1.5 mx-2 z-10 animate-spin text-gray-400" />
-        ) : (
-          <Globe className="size-4 my-1.5 mx-2 z-10 transition-colors text-gray-400" />
-        )}
+        <Globe className="size-4 my-1.5 mx-2 z-10 transition-colors text-gray-400" />
       </button>
 
       <div
@@ -101,15 +104,22 @@ export default function LanguageSwitcher() {
         {languages.map((lang) => (
           <button
             key={lang.code}
-            className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+            className={`w-full text-left px-4 py-2 text-sm transition-colors flex items-center gap-2 ${
               currentLanguage === lang.code
                 ? "bg-gray-100 text-gray-900 font-medium"
                 : "text-gray-700 hover:bg-gray-100"
             }`}
             onClick={() => handleLanguageSelect(lang.code)}
-            disabled={isLoading}
+            disabled={
+              isLoading ||
+              loadingLanguage !== null ||
+              lang.code === currentLanguage
+            }
           >
             {dnt(lang.name)}
+            {loadingLanguage === lang.code && (
+              <Loader2 className="size-3 animate-spin text-gray-400 ml-auto" />
+            )}
           </button>
         ))}
       </div>
