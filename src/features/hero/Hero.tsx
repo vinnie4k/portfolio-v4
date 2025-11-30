@@ -46,14 +46,14 @@ export default function Hero() {
           alt="Image of Vin after running his first 5k"
           caption="Ran my first 5k ever!"
           className="-rotate-6 w-full max-w-[280px] md:max-w-[400px]"
-          priority={true}
+          fetchPriority="high"
         />
         <ImageFrame
           src="/images/hero-2.webp"
           alt="Image of Vin taking pictures in Lake Tahoe"
           caption="Me and my camera in Tahoe :)"
           className="rotate-6 w-full max-w-[280px] md:max-w-[400px]"
-          priority={true}
+          fetchPriority="high"
         />
       </div>
     </div>

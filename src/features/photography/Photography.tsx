@@ -17,48 +17,48 @@ export default function Photography() {
         <div className="flex flex-row gap-4">
           <div className="flex flex-col gap-4">
             <ImageFrame
-              src="/images/photography-1.webp"
+              src="/images/photography-1.png"
               alt="Image of Camp Richardson's Ice Cream Parlor in Tahoe"
               pillText="Lake Tahoe, CA"
             />
             <ImageFrame
-              src="/images/photography-2.webp"
+              src="/images/photography-2.png"
               alt="Image of a man slicing taco meat in Cabo, Mexico"
               pillText="Cabo, Mexico"
             />
           </div>
           <ImageFrame
-            src="/images/photography-3.webp"
+            src="/images/photography-3.png"
             alt="Image of Muir Woods in California"
             pillText="Muir Woods, CA"
           />
         </div>
         <ImageFrame
-          src="/images/photography-4.webp"
+          src="/images/photography-4.png"
           alt="Image of Lake Tahoe in California"
           pillText="Lake Tahoe, CA"
         />
         <div className="flex flex-row gap-4">
           <ImageFrame
-            src="/images/photography-5.webp"
+            src="/images/photography-5.png"
             alt="Image of a street in Osaka, Japan"
             pillText="Osaka, Japan"
           />
           <div className="flex flex-col gap-4">
             <ImageFrame
-              src="/images/photography-6.webp"
+              src="/images/photography-6.png"
               alt="Image of Kinkaku-ji in Kyoto, Japan"
               pillText="Kyoto, Japan"
             />
             <ImageFrame
-              src="/images/photography-7.webp"
+              src="/images/photography-7.png"
               alt="Image of Big Sur in California"
               pillText="Big Sur, CA"
             />
           </div>
         </div>
         <ImageFrame
-          src="/images/photography-8.webp"
+          src="/images/photography-8.png"
           alt="Image of a sunset over the ocean in Cabo, Mexico"
           pillText="Cabo, Mexico"
         />

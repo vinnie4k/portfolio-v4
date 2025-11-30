@@ -1,4 +1,3 @@
-import { Image } from "@unpic/react";
 import { cn } from "../utils";
 
 interface ImageFrameProps {
@@ -7,7 +6,7 @@ interface ImageFrameProps {
   caption?: string;
   pillText?: string;
   className?: string;
-  priority?: boolean;
+  fetchPriority?: "high" | "low" | "auto";
 }
 
 export const ImageFrame = ({
@@ -16,7 +15,7 @@ export const ImageFrame = ({
   caption,
   pillText,
   className,
-  priority = false,
+  fetchPriority,
 }: ImageFrameProps) => {
   return (
     <div
@@ -26,13 +25,11 @@ export const ImageFrame = ({
       )}
     >
       <div className="flex items-center justify-center w-full h-full bg-gray-100 border-2 border-gray-200 rounded-2xl">
-        <Image
+        <img
           src={src}
           alt={alt}
           className="w-full h-full object-cover p-2 rounded-2xl"
-          layout="fullWidth"
-          background="auto"
-          fetchPriority={priority ? "high" : "auto"}
+          fetchPriority={fetchPriority}
         />
       </div>
 
