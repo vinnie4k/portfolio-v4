@@ -33,6 +33,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     links: [
       {
         rel: "preload",
+        href: "/fonts/Nunito-VariableFont_wght.ttf",
+        as: "font",
+        type: "font/ttf",
+        crossOrigin: "anonymous",
+        fetchPriority: "high",
+      },
+      {
+        rel: "preload",
         href: "/fonts/LiebeHeide-Color.otf",
         as: "font",
         type: "font/otf",
@@ -40,21 +48,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         rel: "preload",
-        href: "/images/hero-1.JPG",
+        href: "/images/hero-1.webp",
         as: "image",
+        fetchPriority: "high",
       },
       {
         rel: "preload",
-        href: "/images/hero-2.jpeg",
-        as: "image",
-      },
-      {
-        rel: "stylesheet",
         href: appCss,
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Euphoria+Script&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap",
+        as: "style",
       },
     ],
   }),
@@ -80,6 +81,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             `,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = ${JSON.stringify(appCss)};
+                link.media = 'print';
+                link.onload = function() { this.media = 'all'; };
+                document.head.appendChild(link);
+              })();
+            `,
+          }}
+        />
+        <noscript>
+          <link rel="stylesheet" href={appCss} />
+        </noscript>
       </head>
       <body>
         {children}

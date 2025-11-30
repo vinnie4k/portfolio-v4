@@ -68,7 +68,6 @@ function App() {
   // States
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(0);
-  const [isInitialMount, setIsInitialMount] = useState<boolean>(true);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [hasMounted, setHasMounted] = useState<boolean>(false);
 
@@ -79,14 +78,6 @@ function App() {
   const lastScrollDirection = useRef(0);
   const targetScrollTop = useRef(0);
   const animationFrameId = useRef<number | null>(null);
-
-  // Mark initial mount as complete after animations
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsInitialMount(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Mobile detection - only after mount to avoid hydration mismatch
   useEffect(() => {
@@ -253,9 +244,8 @@ function App() {
         <motion.div
           className="w-container mx-auto py-4 shrink-0"
           variants={navbarVariants}
-          initial={isInitialMount ? "initial" : "animate"}
+          initial="animate"
           animate="animate"
-          transition={{ duration: 2.0, ease: [0.16, 1, 0.2, 0.85] }}
         >
           <Navbar
             onLogoClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -265,13 +255,8 @@ function App() {
         <motion.div
           className="flex-1 overflow-y-auto scrollbar-hidden"
           variants={contentVariants}
-          initial={isInitialMount ? "initial" : "animate"}
+          initial="animate"
           animate="animate"
-          transition={{
-            duration: 2.0,
-            delay: isInitialMount ? 0.7 : 0,
-            ease: [0.16, 1, 0.2, 0.85],
-          }}
         >
           {sections.map((section) => {
             const SectionComponent = section.component;
@@ -306,9 +291,8 @@ function App() {
       <motion.div
         className="w-container mx-auto py-4 shrink-0"
         variants={navbarVariants}
-        initial={isInitialMount ? "initial" : "animate"}
+        initial="animate"
         animate="animate"
-        transition={{ duration: 2.0, ease: [0.16, 1, 0.2, 0.85] }}
       >
         <Navbar onLogoClick={() => handleSectionClick(0)} />
       </motion.div>
@@ -319,13 +303,8 @@ function App() {
           isScrollable ? "overflow-y-auto" : "overflow-hidden"
         }`}
         variants={contentVariants}
-        initial={isInitialMount ? "initial" : "animate"}
+        initial="animate"
         animate="animate"
-        transition={{
-          duration: 2.0,
-          delay: isInitialMount ? 0.7 : 0,
-          ease: [0.16, 1, 0.2, 0.85],
-        }}
       >
         <AnimatePresence
           initial={false}

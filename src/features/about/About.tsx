@@ -40,13 +40,13 @@ export default function About() {
 
       <div className="flex flex-col md:flex-row gap-16 items-center justify-center">
         <ImageFrame
-          src="/images/about-1.jpeg"
+          src="/images/about-1.webp"
           alt="Sledding down Libe Slope 🛷"
           caption="Sledding down Libe Slope 🛷"
           className="rotate-6 max-w-[280px] md:max-w-none"
         />
         <ImageFrame
-          src="/images/about-2.jpeg"
+          src="/images/about-2.webp"
           alt="My iOS team on Cornell AppDev"
           caption="My iOS team on Cornell AppDev"
           className="-rotate-6 max-w-[280px] md:max-w-none"

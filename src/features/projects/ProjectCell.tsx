@@ -24,7 +24,6 @@ export default function ProjectCell({
           src={imageSrc}
           alt={imageAlt}
           className={cn("w-full h-full object-cover", imageClass)}
-          loading="lazy"
           layout="fullWidth"
         />
         {pillText && (

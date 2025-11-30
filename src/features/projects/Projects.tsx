@@ -15,28 +15,28 @@ export default function Projects() {
 
       <div className="grid grid-cols-2 gap-4">
         <ProjectCell
-          imageSrc="/images/grabbit.png"
+          imageSrc="/images/grabbit.webp"
           imageAlt=""
           link="https://old.vinbui.me/grabbit"
           imageClass="w-full h-full object-contain scale-75"
           pillText="Grabbit"
         />
         <ProjectCell
-          imageSrc="/images/scribbly.png"
+          imageSrc="/images/scribbly.webp"
           imageAlt=""
           link="https://old.vinbui.me/scribbly"
           imageClass="w-full h-full object-contain scale-75"
           pillText="Scribbly"
         />
         <ProjectCell
-          imageSrc="/images/status-platform.png"
+          imageSrc="/images/status-platform.webp"
           imageAlt=""
           link="https://old.vinbui.me/status"
           imageClass="w-full h-full object-contain scale-75"
           pillText="Status Platform"
         />
         <ProjectCell
-          imageSrc="/images/volume.png"
+          imageSrc="/images/volume.webp"
           imageAlt=""
           link="https://old.vinbui.me/volume"
           imageClass="w-full h-full object-contain scale-75"

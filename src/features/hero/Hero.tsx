@@ -42,14 +42,14 @@ export default function Hero() {
       {/* Images */}
       <div className="flex flex-col md:flex-row gap-16 items-center justify-center">
         <ImageFrame
-          src="/images/hero-1.JPG"
+          src="/images/hero-1.webp"
           alt="Image of Vin after running his first 5k"
           caption="Ran my first 5k ever!"
           className="-rotate-6 w-full max-w-[280px] md:max-w-[400px]"
           priority={true}
         />
         <ImageFrame
-          src="/images/hero-2.jpeg"
+          src="/images/hero-2.webp"
           alt="Image of Vin taking pictures in Lake Tahoe"
           caption="Me and my camera in Tahoe :)"
           className="rotate-6 w-full max-w-[280px] md:max-w-[400px]"

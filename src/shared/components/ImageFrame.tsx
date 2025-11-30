@@ -30,7 +30,6 @@ export const ImageFrame = ({
           src={src}
           alt={alt}
           className="w-full h-full object-cover p-2 rounded-2xl"
-          loading={priority ? "eager" : "lazy"}
           layout="fullWidth"
           background="auto"
           fetchPriority={priority ? "high" : "auto"}
