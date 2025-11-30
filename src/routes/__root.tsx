@@ -70,6 +70,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <link rel="stylesheet" href={appCss} />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -82,23 +83,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             `,
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = ${JSON.stringify(appCss)};
-                link.media = 'print';
-                link.onload = function() { this.media = 'all'; };
-                document.head.appendChild(link);
-              })();
-            `,
-          }}
-        />
-        <noscript>
-          <link rel="stylesheet" href={appCss} />
-        </noscript>
       </head>
       <body>
         <LanguageSync />
