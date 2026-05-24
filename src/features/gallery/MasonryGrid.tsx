@@ -135,6 +135,7 @@ export default function MasonryGrid({
 
   const nextBatchReadyRef = useRef(nextBatchReady);
   nextBatchReadyRef.current = nextBatchReady;
+  const isIntersectingRef = useRef(false);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -142,6 +143,7 @@ export default function MasonryGrid({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        isIntersectingRef.current = entry.isIntersecting;
         if (!entry.isIntersecting) return;
 
         if (nextBatchReadyRef.current) {
@@ -159,13 +161,16 @@ export default function MasonryGrid({
     return () => observer.disconnect();
   }, [photos.length]);
 
+  // The observer only fires on intersection transitions. When a batch reveals
+  // but the sentinel is still in view (fast scroll), keep revealing as each
+  // preloaded batch becomes ready instead of waiting for the next transition.
   useEffect(() => {
-    if (loading && nextBatchReady) {
+    if (nextBatchReady && isIntersectingRef.current) {
       setVisibleCount((prev) => Math.min(prev + NEXT_BATCH, photos.length));
       setNextBatchReady(false);
       setLoading(false);
     }
-  }, [loading, nextBatchReady, photos.length]);
+  }, [nextBatchReady, photos.length]);
 
   const visiblePhotos = useMemo(
     () => photos.slice(0, visibleCount),
