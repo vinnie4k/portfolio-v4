@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { cn } from "@/shared/utils";
 import type { Photo } from "./types";
 import { getPhotoPath, thumbnailUrl } from "./urls";
 
@@ -141,17 +140,20 @@ export default function MasonryGrid({
     const sentinel = sentinelRef.current;
     if (!sentinel) return;
 
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
 
-      if (nextBatchReadyRef.current) {
-        setVisibleCount((prev) => Math.min(prev + NEXT_BATCH, photos.length));
-        setNextBatchReady(false);
-        setLoading(false);
-      } else {
-        setLoading(true);
-      }
-    });
+        if (nextBatchReadyRef.current) {
+          setVisibleCount((prev) => Math.min(prev + NEXT_BATCH, photos.length));
+          setNextBatchReady(false);
+          setLoading(false);
+        } else {
+          setLoading(true);
+        }
+      },
+      { rootMargin: "1500px 0px" },
+    );
 
     observer.observe(sentinel);
     return () => observer.disconnect();
@@ -214,8 +216,6 @@ interface GalleryPhotoProps {
 }
 
 function GalleryPhoto({ photo, src, onClick }: GalleryPhotoProps) {
-  const [loaded, setLoaded] = useState(false);
-
   return (
     <div
       className="relative cursor-pointer overflow-hidden bg-neutral-100"
@@ -223,17 +223,11 @@ function GalleryPhoto({ photo, src, onClick }: GalleryPhotoProps) {
       onClick={onClick}
       onContextMenu={(e) => e.preventDefault()}
     >
-      {!loaded && (
-        <div className="absolute inset-0 animate-pulse bg-neutral-200" />
-      )}
       <img
         src={src}
         alt=""
-        onLoad={() => setLoaded(true)}
-        className={cn(
-          "h-full w-full object-cover select-none transition-opacity duration-700",
-          loaded ? "opacity-100" : "opacity-0",
-        )}
+        loading="eager"
+        className="h-full w-full object-cover select-none"
         draggable={false}
       />
       <div className="absolute inset-0 transition-colors hover:bg-black/[0.08]" />
