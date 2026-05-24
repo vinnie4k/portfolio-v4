@@ -221,9 +221,14 @@ interface GalleryPhotoProps {
 }
 
 function GalleryPhoto({ photo, src, onClick }: GalleryPhotoProps) {
+  const filename = useMemo(() => {
+    const base = photo.src.split("/").pop() ?? photo.src;
+    return base.replace(/\.[^.]+$/, "");
+  }, [photo.src]);
+
   return (
     <div
-      className="relative cursor-pointer overflow-hidden bg-neutral-100"
+      className="group relative cursor-pointer overflow-hidden bg-neutral-100"
       style={{ aspectRatio: `${photo.width}/${photo.height}` }}
       onClick={onClick}
       onContextMenu={(e) => e.preventDefault()}
@@ -235,7 +240,10 @@ function GalleryPhoto({ photo, src, onClick }: GalleryPhotoProps) {
         className="h-full w-full object-cover select-none"
         draggable={false}
       />
-      <div className="absolute inset-0 transition-colors hover:bg-black/[0.08]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <span className="pointer-events-none absolute right-3 bottom-3 left-3 truncate text-xs font-light tracking-wide text-white opacity-0 translate-y-1 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        {filename}
+      </span>
     </div>
   );
 }
