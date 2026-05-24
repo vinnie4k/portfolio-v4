@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PhotosClientIdRouteImport } from './routes/photos/$clientId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PhotosClientIdRoute = PhotosClientIdRouteImport.update({
+  id: '/photos/$clientId',
+  path: '/photos/$clientId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/photos/$clientId': typeof PhotosClientIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/photos/$clientId': typeof PhotosClientIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/photos/$clientId': typeof PhotosClientIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/photos/$clientId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/photos/$clientId'
+  id: '__root__' | '/' | '/photos/$clientId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PhotosClientIdRoute: typeof PhotosClientIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/photos/$clientId': {
+      id: '/photos/$clientId'
+      path: '/photos/$clientId'
+      fullPath: '/photos/$clientId'
+      preLoaderRoute: typeof PhotosClientIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PhotosClientIdRoute: PhotosClientIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
