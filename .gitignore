@@ -11,3 +11,4 @@ dist-ssr
 .vinxi
 manifest.json
 upload-to-r2.mjs
+.vercel

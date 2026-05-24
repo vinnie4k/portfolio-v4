@@ -1,4 +1,3 @@
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { createServerFn } from "@tanstack/react-start";
 import { getCookie, setCookie } from "@tanstack/react-start/server";
 import { createHmac, timingSafeEqual } from "node:crypto";
@@ -18,9 +17,10 @@ function getEnv(key: string): string {
   return val;
 }
 
-let s3Client: S3Client | undefined;
-function getS3Client() {
+let s3Client: import("@aws-sdk/client-s3").S3Client | undefined;
+async function getS3Client() {
   if (!s3Client) {
+    const { S3Client } = await import("@aws-sdk/client-s3");
     s3Client = new S3Client({
       region: "auto",
       endpoint: `https://${getEnv("R2_ACCOUNT_ID")}.r2.cloudflarestorage.com`,
@@ -35,7 +35,8 @@ function getS3Client() {
 
 async function fetchManifest(clientId: string): Promise<Manifest | null> {
   try {
-    const response = await getS3Client().send(
+    const { GetObjectCommand } = await import("@aws-sdk/client-s3");
+    const response = await (await getS3Client()).send(
       new GetObjectCommand({
         Bucket: getEnv("R2_BUCKET_NAME"),
         Key: `${clientId}/manifest.json`,

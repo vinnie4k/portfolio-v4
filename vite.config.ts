@@ -23,7 +23,17 @@ const config = defineConfig(({ mode }) => ({
   esbuild: {
     drop: mode === "production" ? ["console", "debugger"] : [],
   },
-  nitro: {},
+  nitro: {
+    rollupConfig: {
+      output: {
+        manualChunks(id: string) {
+          if (id.includes("@aws-sdk") || id.includes("@smithy")) {
+            return "aws-sdk";
+          }
+        },
+      },
+    },
+  },
 }));
 
 export default config;
