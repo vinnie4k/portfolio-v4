@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Heart } from "lucide-react";
+import { cn } from "@/shared/utils";
 import type { Photo } from "./types";
+import { useLikes } from "./LikesContext";
 import { getPhotoPath, thumbnailUrl } from "./urls";
 
 const INITIAL_BATCH = 24;
@@ -221,10 +224,17 @@ interface GalleryPhotoProps {
 }
 
 function GalleryPhoto({ photo, src, onClick }: GalleryPhotoProps) {
+  const { guestName, canLike, likesByPhoto, toggleLike } = useLikes();
   const filename = useMemo(() => {
     const base = photo.src.split("/").pop() ?? photo.src;
     return base.replace(/\.[^.]+$/, "");
   }, [photo.src]);
+
+  const likers = likesByPhoto[photo.src] ?? [];
+  const likedByMe = likers.includes(guestName);
+  const count = likers.length;
+  const showHeart = canLike || count > 0;
+  const alwaysShow = likedByMe || count > 0;
 
   return (
     <div
@@ -241,9 +251,38 @@ function GalleryPhoto({ photo, src, onClick }: GalleryPhotoProps) {
         draggable={false}
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      <span className="pointer-events-none absolute right-3 bottom-3 left-3 truncate text-xs font-light tracking-wide text-white opacity-0 translate-y-1 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+      <span className="pointer-events-none absolute right-12 bottom-3 left-3 truncate text-xs font-light tracking-wide text-white opacity-0 translate-y-1 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
         {filename}
       </span>
+      {showHeart && (
+        <button
+          type="button"
+          disabled={!canLike}
+          aria-label={likedByMe ? "Unlike photo" : "Like photo"}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleLike(photo.src);
+          }}
+          className={cn(
+            "absolute right-2 bottom-2 flex items-center gap-1 px-1.5 py-1 text-white transition-all duration-300",
+            alwaysShow ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+            canLike ? "cursor-pointer hover:scale-110" : "cursor-default",
+          )}
+        >
+          <Heart
+            size={18}
+            className={cn(
+              "drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]",
+              likedByMe ? "fill-red-500 text-red-500" : "fill-transparent text-white",
+            )}
+          />
+          {count > 0 && (
+            <span className="text-[0.7rem] font-medium tabular-nums drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
+              {count}
+            </span>
+          )}
+        </button>
+      )}
     </div>
   );
 }

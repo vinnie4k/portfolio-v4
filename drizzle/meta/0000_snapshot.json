@@ -1,0 +1,115 @@
+{
+  "id": "df90215f-0cf3-4a66-9629-8eb43ea9868c",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.gallery_guests": {
+      "name": "gallery_guests",
+      "schema": "",
+      "columns": {
+        "client_id": {
+          "name": "client_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "gallery_guests_client_id_name_pk": {
+          "name": "gallery_guests_client_id_name_pk",
+          "columns": [
+            "client_id",
+            "name"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.photo_likes": {
+      "name": "photo_likes",
+      "schema": "",
+      "columns": {
+        "client_id": {
+          "name": "client_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "photo_src": {
+          "name": "photo_src",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guest_name": {
+          "name": "guest_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "photo_likes_client_id_guest_name_gallery_guests_client_id_name_fk": {
+          "name": "photo_likes_client_id_guest_name_gallery_guests_client_id_name_fk",
+          "tableFrom": "photo_likes",
+          "tableTo": "gallery_guests",
+          "columnsFrom": [
+            "client_id",
+            "guest_name"
+          ],
+          "columnsTo": [
+            "client_id",
+            "name"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "photo_likes_client_id_photo_src_guest_name_pk": {
+          "name": "photo_likes_client_id_photo_src_guest_name_pk",
+          "columns": [
+            "client_id",
+            "photo_src",
+            "guest_name"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

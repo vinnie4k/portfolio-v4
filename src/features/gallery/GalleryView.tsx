@@ -9,6 +9,8 @@ import { coverImageUrl, getPhotoPath } from "./urls";
 
 interface GalleryViewProps {
   gallery: GalleryData;
+  viewerName?: string;
+  onChangeName?: () => void;
 }
 
 function useSmartHeader() {
@@ -59,7 +61,11 @@ function useSmartHeader() {
   return { visible, pastCover };
 }
 
-export default function GalleryView({ gallery }: GalleryViewProps) {
+export default function GalleryView({
+  gallery,
+  viewerName,
+  onChangeName,
+}: GalleryViewProps) {
   const [activeTab, setActiveTab] = useState(ALL_TAB);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const { visible, pastCover } = useSmartHeader();
@@ -124,6 +130,14 @@ export default function GalleryView({ gallery }: GalleryViewProps) {
             <p className="mt-0.5 text-[0.55rem] font-normal tracking-[0.2em] text-gray-400 uppercase">
               Photos by Vin
             </p>
+            {viewerName && (
+              <button
+                onClick={onChangeName}
+                className="clickable mt-1.5 cursor-pointer text-[0.55rem] font-normal tracking-[0.2em] text-gray-400 uppercase transition-colors hover:text-gray-700"
+              >
+                Viewing as {viewerName} · Change
+              </button>
+            )}
           </div>
 
           {gallery.sections.length > 1 && (

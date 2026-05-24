@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
+import { cn } from "@/shared/utils";
 import type { Photo } from "./types";
+import { useLikes } from "./LikesContext";
 
 interface LightboxProps {
   photos: Photo[];
@@ -28,7 +30,7 @@ function LightboxImage({ src }: { src: string }) {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.15 }}
         onLoad={() => setLoaded(true)}
-        className="absolute inset-0 m-auto max-h-[90vh] max-w-[90vw] object-contain select-none"
+        className="absolute inset-0 m-auto max-h-[82vh] max-w-[86vw] object-contain select-none"
         draggable={false}
       />
     </>
@@ -43,6 +45,7 @@ export default function Lightbox({
 }: LightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const touchStartX = useRef<number | null>(null);
+  const { guestName, canLike, likesByPhoto, toggleLike } = useLikes();
 
   const getUrl = useCallback(
     (i: number) => `${baseUrl}/${photos[i].src}`,
@@ -105,6 +108,9 @@ export default function Lightbox({
   }
 
   const photo = photos[currentIndex];
+  const likers = likesByPhoto[photo.src] ?? [];
+  const likedByMe = likers.includes(guestName);
+  const count = likers.length;
 
   return (
     <motion.div
@@ -148,7 +154,7 @@ export default function Lightbox({
       </button>
 
       <div
-        className="relative h-[90vh] w-[90vw]"
+        className="relative h-[82vh] w-[86vw]"
         onClick={(e) => e.stopPropagation()}
         onContextMenu={(e) => e.preventDefault()}
       >
@@ -157,9 +163,43 @@ export default function Lightbox({
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[0.6rem] font-light tracking-[0.15em] text-white/50">
+      <span className="absolute bottom-4 left-1/2 max-w-[60vw] -translate-x-1/2 truncate text-[0.6rem] font-light tracking-[0.15em] text-white/40">
         {photo.src}
-      </div>
+      </span>
+
+      {(canLike || count > 0) && (
+        <div
+          className="absolute right-6 bottom-4 flex max-w-[45vw] flex-col items-end gap-1"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            disabled={!canLike}
+            onClick={() => toggleLike(photo.src)}
+            aria-label={likedByMe ? "Unlike photo" : "Like photo"}
+            className={cn(
+              "flex items-center gap-1.5 text-white/80 transition-colors",
+              canLike ? "cursor-pointer hover:text-white" : "cursor-default",
+            )}
+          >
+            <Heart
+              size={20}
+              className={cn(
+                canLike && "transition-transform hover:scale-110",
+                likedByMe ? "fill-red-500 text-red-500" : "fill-transparent",
+              )}
+            />
+            {count > 0 && (
+              <span className="text-xs font-medium tabular-nums">{count}</span>
+            )}
+          </button>
+          {count > 0 && (
+            <p className="max-w-full truncate text-[0.55rem] font-light tracking-[0.2em] text-white/60 uppercase">
+              Liked by {likers.join(", ")}
+            </p>
+          )}
+        </div>
+      )}
     </motion.div>
   );
 }

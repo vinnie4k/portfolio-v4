@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { getGalleryPage } from "@/features/gallery/api";
-import GalleryView from "@/features/gallery/GalleryView";
+import GalleryAuthedView from "@/features/gallery/GalleryAuthedView";
 import PasswordGate from "@/features/gallery/PasswordGate";
 import type { GalleryData } from "@/features/gallery/types";
 
@@ -55,5 +55,5 @@ function GalleryPage() {
     );
   }
 
-  return <GalleryView gallery={gallery} />;
+  return <GalleryAuthedView gallery={gallery} clientId={clientId} />;
 }

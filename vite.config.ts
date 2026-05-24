@@ -30,6 +30,9 @@ const config = defineConfig(({ mode }) => ({
           if (id.includes("@aws-sdk") || id.includes("@smithy")) {
             return "aws-sdk";
           }
+          if (id.includes("@neondatabase") || id.includes("drizzle-orm")) {
+            return "db";
+          }
         },
       },
     },

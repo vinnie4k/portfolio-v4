@@ -29,3 +29,6 @@ export interface GalleryData {
   baseUrl: string;
   cdnBaseUrl: string;
 }
+
+/** Maps a photo's `src` to the list of guest names who liked it. */
+export type GalleryLikes = Record<string, string[]>;
