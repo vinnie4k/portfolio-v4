@@ -81,6 +81,12 @@ export default function GalleryView({
     return gallery.sections.find((s) => s.label === activeTab)?.photos ?? [];
   }, [activeTab, gallery.sections, likesByPhoto]);
 
+  function handleTabChange(tab: string) {
+    setActiveTab(tab);
+    // Jump to the top of the gallery (just past the full-height cover).
+    window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+  }
+
   const coverPath = getPhotoPath(
     gallery.cdnBaseUrl,
     gallery.baseUrl,
@@ -145,7 +151,7 @@ export default function GalleryView({
           <GalleryTabs
             sections={gallery.sections}
             activeTab={activeTab}
-            onTabChange={setActiveTab}
+            onTabChange={handleTabChange}
           />
         </div>
       </motion.div>
