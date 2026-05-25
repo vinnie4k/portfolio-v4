@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { validatePhotoSrc } from "./likes.logic";
 import type { GalleryData, GalleryMeta, Manifest } from "./types";
 
 function getEnv(key: string): string {
@@ -149,3 +150,27 @@ export const unlockGallery = createServerFn({ method: "POST" })
       };
     },
   );
+
+export const getDownloadUrl = createServerFn({ method: "GET" })
+  .inputValidator((input: { clientId: string; photoSrc: string }) => input)
+  .handler(async ({ data }): Promise<string> => {
+    const { ensureAccess } = await import("./session.server");
+    ensureAccess(data.clientId);
+    validatePhotoSrc(data.photoSrc);
+
+    const filename = (data.photoSrc.split("/").pop() ?? "photo").replace(
+      /["\\]/g,
+      "",
+    );
+    const { GetObjectCommand } = await import("@aws-sdk/client-s3");
+    const { getSignedUrl } = await import("@aws-sdk/s3-request-presigner");
+    return getSignedUrl(
+      await getS3Client(),
+      new GetObjectCommand({
+        Bucket: getEnv("R2_BUCKET_NAME"),
+        Key: `${data.clientId}/photos/${data.photoSrc}`,
+        ResponseContentDisposition: `attachment; filename="${filename}"`,
+      }),
+      { expiresIn: 300 },
+    );
+  });

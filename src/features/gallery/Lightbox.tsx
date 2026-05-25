@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Heart, X } from "lucide-react";
 import { cn } from "@/shared/utils";
 import type { Photo } from "./types";
 import { useLikes } from "./LikesContext";
@@ -45,7 +45,8 @@ export default function Lightbox({
 }: LightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const touchStartX = useRef<number | null>(null);
-  const { guestName, canLike, likesByPhoto, toggleLike } = useLikes();
+  const { guestName, canLike, likesByPhoto, toggleLike, downloadPhoto } =
+    useLikes();
 
   const getUrl = useCallback(
     (i: number) => `${baseUrl}/${photos[i].src}`,
@@ -167,39 +168,49 @@ export default function Lightbox({
         {photo.src}
       </span>
 
-      {(canLike || count > 0) && (
-        <div
-          className="absolute right-6 bottom-4 flex max-w-[45vw] flex-col items-end gap-1"
-          onClick={(e) => e.stopPropagation()}
-        >
+      <div
+        className="absolute right-6 bottom-4 flex max-w-[45vw] flex-col items-end gap-1"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-4">
           <button
             type="button"
-            disabled={!canLike}
-            onClick={() => toggleLike(photo.src)}
-            aria-label={likedByMe ? "Unlike photo" : "Like photo"}
-            className={cn(
-              "flex items-center gap-1.5 text-white/80 transition-colors",
-              canLike ? "cursor-pointer hover:text-white" : "cursor-default",
-            )}
+            onClick={() => void downloadPhoto(photo.src)}
+            aria-label="Download photo"
+            className="cursor-pointer text-white/80 transition-colors hover:text-white"
           >
-            <Heart
-              size={20}
-              className={cn(
-                canLike && "transition-transform hover:scale-110",
-                likedByMe ? "fill-red-500 text-red-500" : "fill-transparent",
-              )}
-            />
-            {count > 0 && (
-              <span className="text-xs font-medium tabular-nums">{count}</span>
-            )}
+            <Download size={20} className="transition-transform hover:scale-110" />
           </button>
-          {count > 0 && (
-            <p className="max-w-full truncate text-[0.55rem] font-light tracking-[0.2em] text-white/60 uppercase">
-              Liked by {likers.join(", ")}
-            </p>
+          {(canLike || count > 0) && (
+            <button
+              type="button"
+              disabled={!canLike}
+              onClick={() => toggleLike(photo.src)}
+              aria-label={likedByMe ? "Unlike photo" : "Like photo"}
+              className={cn(
+                "flex items-center gap-1.5 text-white/80 transition-colors",
+                canLike ? "cursor-pointer hover:text-white" : "cursor-default",
+              )}
+            >
+              <Heart
+                size={20}
+                className={cn(
+                  canLike && "transition-transform hover:scale-110",
+                  likedByMe ? "fill-red-500 text-red-500" : "fill-transparent",
+                )}
+              />
+              {count > 0 && (
+                <span className="text-xs font-medium tabular-nums">{count}</span>
+              )}
+            </button>
           )}
         </div>
-      )}
+        {count > 0 && (
+          <p className="max-w-full truncate text-[0.55rem] font-light tracking-[0.2em] text-white/60 uppercase">
+            Liked by {likers.join(", ")}
+          </p>
+        )}
+      </div>
     </motion.div>
   );
 }

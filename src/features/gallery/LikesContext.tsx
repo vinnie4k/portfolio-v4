@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { getDownloadUrl } from "./api";
 import { getLikes, likePhoto, unlikePhoto } from "./likes.api";
 import type { GalleryLikes } from "./types";
 
@@ -15,6 +16,7 @@ interface LikesContextValue {
   canLike: boolean;
   likesByPhoto: GalleryLikes;
   toggleLike: (photoSrc: string) => void;
+  downloadPhoto: (photoSrc: string) => Promise<void>;
 }
 
 const LikesContext = createContext<LikesContextValue | null>(null);
@@ -72,8 +74,23 @@ export function LikesProvider({
     [clientId, guestName, canLike],
   );
 
+  const downloadPhoto = useCallback(
+    async (photoSrc: string) => {
+      const url = await getDownloadUrl({ data: { clientId, photoSrc } });
+      const a = document.createElement("a");
+      a.href = url;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    },
+    [clientId],
+  );
+
   return (
-    <LikesContext.Provider value={{ guestName, canLike, likesByPhoto, toggleLike }}>
+    <LikesContext.Provider
+      value={{ guestName, canLike, likesByPhoto, toggleLike, downloadPhoto }}
+    >
       {children}
     </LikesContext.Provider>
   );
