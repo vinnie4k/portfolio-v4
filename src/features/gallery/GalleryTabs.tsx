@@ -2,6 +2,7 @@ import { cn } from "@/shared/utils";
 import type { Section } from "./types";
 
 export const ALL_TAB = "All";
+export const LIKED_TAB = "Liked";
 
 interface GalleryTabsProps {
   sections: Section[];
@@ -14,7 +15,8 @@ export default function GalleryTabs({
   activeTab,
   onTabChange,
 }: GalleryTabsProps) {
-  const tabs = [ALL_TAB, ...sections.map((s) => s.label)];
+  const sectionLabels = sections.length > 1 ? sections.map((s) => s.label) : [];
+  const tabs = [ALL_TAB, LIKED_TAB, ...sectionLabels];
 
   return (
     <div className="scrollbar-hidden flex gap-7 overflow-x-auto">

@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { GalleryData } from "./types";
-import { ALL_TAB } from "./GalleryTabs";
+import { ALL_TAB, LIKED_TAB } from "./GalleryTabs";
 import GalleryTabs from "./GalleryTabs";
+import { useLikes } from "./LikesContext";
 import Lightbox from "./Lightbox";
 import MasonryGrid from "./MasonryGrid";
 import { coverImageUrl, getPhotoPath } from "./urls";
@@ -69,15 +70,16 @@ export default function GalleryView({
   const [activeTab, setActiveTab] = useState(ALL_TAB);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const { visible, pastCover } = useSmartHeader();
+  const { likesByPhoto } = useLikes();
 
   const photos = useMemo(() => {
-    if (activeTab === ALL_TAB) {
-      return gallery.sections.flatMap((s) => s.photos);
+    const all = gallery.sections.flatMap((s) => s.photos);
+    if (activeTab === ALL_TAB) return all;
+    if (activeTab === LIKED_TAB) {
+      return all.filter((p) => (likesByPhoto[p.src]?.length ?? 0) > 0);
     }
-    return (
-      gallery.sections.find((s) => s.label === activeTab)?.photos ?? []
-    );
-  }, [activeTab, gallery.sections]);
+    return gallery.sections.find((s) => s.label === activeTab)?.photos ?? [];
+  }, [activeTab, gallery.sections, likesByPhoto]);
 
   const coverPath = getPhotoPath(
     gallery.cdnBaseUrl,
@@ -140,13 +142,11 @@ export default function GalleryView({
             )}
           </div>
 
-          {gallery.sections.length > 1 && (
-            <GalleryTabs
-              sections={gallery.sections}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
-          )}
+          <GalleryTabs
+            sections={gallery.sections}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
         </div>
       </motion.div>
 
@@ -159,12 +159,18 @@ export default function GalleryView({
           transition={{ duration: 0.2 }}
           className="px-3 pt-1 pb-16 md:px-5 md:pt-2 md:pb-24"
         >
-          <MasonryGrid
-            photos={photos}
-            baseUrl={gallery.baseUrl}
-            cdnBaseUrl={gallery.cdnBaseUrl}
-            onPhotoClick={setLightboxIndex}
-          />
+          {activeTab === LIKED_TAB && photos.length === 0 ? (
+            <p className="py-24 text-center text-[0.65rem] font-light tracking-[0.2em] text-gray-400 uppercase">
+              No liked photos yet
+            </p>
+          ) : (
+            <MasonryGrid
+              photos={photos}
+              baseUrl={gallery.baseUrl}
+              cdnBaseUrl={gallery.cdnBaseUrl}
+              onPhotoClick={setLightboxIndex}
+            />
+          )}
         </motion.div>
       </AnimatePresence>
 
